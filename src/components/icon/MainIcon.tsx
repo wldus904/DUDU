@@ -8,7 +8,6 @@ const IconBox = styled.a`
     font-size: 30px;
     font-color: #49497c;
     font-weight: 700;
-    padding: ${(props) => props.padding};
 `;
 
 const MainIcon = ({ ...rest }) => {
@@ -20,7 +19,7 @@ const MainIcon = ({ ...rest }) => {
 
     return (
         <IconBox href="/" {...rest} onClick={clickHandler}>
-            DUDE
+            DUDU
         </IconBox>
     );
 };
