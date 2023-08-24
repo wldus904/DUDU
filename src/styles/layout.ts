@@ -14,12 +14,12 @@ const OverLay = styled.div`
     width: 100%;
     z-index: -1;
     transition-property: z-index, background-color;
-    transition-duration: 0s, 0.2s;
-    transition-delay: 0.4s, 0s;
+    transition-duration: 0s, 0.1s;
+    transition-delay: 0.2s, 0s;
 
     &.on {
         z-index: 2;
-        background-color: rgba(0, 0, 0, 0.4);
+        background-color: rgba(0, 0, 0, 0.2);
         transition-property: z-index, background-color;
         transition-duration: 0s, 0.3s;
         transition-delay: 0s;
