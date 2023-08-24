@@ -35,6 +35,11 @@ const SideMenu = () => {
         { name: "Users API", url: "/api/users" },
     ];
     let [currentPath, setCurrentPath] = useState(router.pathname);
+
+    const toggleMenu = () => {
+        setIsShow(!isShow);
+    };
+
     const move = (e, url) => {
         e.preventDefault();
         router.push(url);
