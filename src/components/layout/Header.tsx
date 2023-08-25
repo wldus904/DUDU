@@ -1,11 +1,14 @@
-import React from "react";
 import styled from "styled-components";
-import { BsList } from "react-icons/bs";
+import User from "../icon/User";
+import { BsList, BsPersonCircle } from "react-icons/bs";
 import { useState } from "react";
+import Button from "@/components/button/Button";
+import { useRouter } from "next/router";
 
 const HeaderBox = styled.header`
     position: sticky;
     display: flex;
+    justify-content: space-between;
     align-items: center;
     width: calc(100% - 20px);
     height: 70px;
@@ -15,23 +18,81 @@ const HeaderBox = styled.header`
     z-index: 1;
 
     .menu-icon-btn {
-        color: #5a6a85;
         width: 22px;
         height: 22px;
         padding: 5px;
         border-radius: 15px;
+        color: #5a6a85;
         cursor: pointer;
 
         &:hover {
             background-color: #f5f8ff;
         }
     }
+
+    .user-icon-btn {
+        width: 28px;
+        height: 28px;
+        color: #5a6a85;
+        cursor: pointer;
+    }
+`;
+
+const UserMenuWrapper = styled.div`
+    position: fixed;
+    top: 55px;
+    right: 25px;
+    width: 200px;
+    height: 100px;
+    z-index: 1;
+    overflow-y: auto;
+    box-shadow: 0 0 4px #d6dbe4;
+    background-color: #fff;
+    opacity: 0;
+    height: 0;
+    transition: 0.2s ease-in-out;
+    transform: translateY (-20px);
+
+    &.on {
+        opacity: 1;
+        height: 100px;
+    }
+`;
+
+const UserMenuList = styled.ul`
+    list-style: none;
+    padding: 0 10px;
+`;
+
+const UserMenu = styled.li`
+    &:not(:last-child) {
+        border-bottom: 1px solid #fff;
+    }
 `;
 
 const Header = (props) => {
+    const router = useRouter();
+    const [isShowUserMenu, setIsShowUserMenu] = useState(false);
+
+    const logout = () => {
+        localStorage.removeItem("user");
+        router.push("/home/login");
+    };
+
     return (
         <HeaderBox>
             <BsList onClick={() => props.toggleMenu()} className="menu-icon-btn" />
+            <BsPersonCircle
+                onClick={() => setIsShowUserMenu(!isShowUserMenu)}
+                className="user-icon-btn"
+            ></BsPersonCircle>
+            <UserMenuWrapper className={isShowUserMenu ? "on" : ""}>
+                <UserMenuList>
+                    <Button onClick={logout} color="primary" outline>
+                        로그아웃
+                    </Button>
+                </UserMenuList>
+            </UserMenuWrapper>
         </HeaderBox>
     );
 };

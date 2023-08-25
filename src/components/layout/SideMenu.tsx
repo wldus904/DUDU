@@ -12,11 +12,11 @@ const MainIconWrapper = styled.div`
 const MenuWrapper = styled.div`
     max-width: 260px;
     min-width: 260px;
-    border-right: 1px solid #eeeeee;
+    border-right: 1px solid #eee;
     font-size: 12px;
 `;
 const MenuContents = styled.nav`
-    height: calc(100vh - 115px);
+    height: calc(100vh - 96px);
     display: flex;
     flex-direction: column;
     padding: 20px;

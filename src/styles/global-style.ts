@@ -7,6 +7,15 @@ export const GlobalStyle = createGlobalStyle`
     html {
       box-sizing: border-box;
       color: #2a3547;
+      height: 100%;
+      width: 100%;
+      line-height: 16px;
+      font-size: 14px;
+    }
+
+    body {
+      height: 100%;
+      width: 100%;
     }
 
     a { 
@@ -18,7 +27,8 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     &::-webkit-scrollbar {
-        width: 10px; /* 스크롤바의 너비 */
+        width: 15px; /* 스크롤바의 너비 */
+        height: 15px;
     }
     &::-webkit-scrollbar-thumb {
         height: 10%; /* 스크롤바의 길이 */

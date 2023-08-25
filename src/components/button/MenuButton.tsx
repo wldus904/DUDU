@@ -2,6 +2,7 @@ import React from "react";
 import styled, { useTheme } from "styled-components";
 import { useRouter } from "next/router";
 import { useEffect, use, useRef } from "react";
+import { theme } from "@/styles/theme";
 
 const Button = styled.a`
     max-width: 190px;
@@ -10,8 +11,8 @@ const Button = styled.a`
     border-radius: 3px;
 
     &:hover {
-        color: ${({ theme }) => theme.colors.primary};
-        background-color: ${({ theme }) => theme.colors.lightprimary};
+        color: ${theme.colors.primary};
+        background-color: ${theme.colors.lightprimary};
     }
 `;
 
