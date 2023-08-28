@@ -1,7 +1,19 @@
 // page에 적용할 style
 import { DefaultTheme } from "styled-components";
 
+const deviceSizes: { [key: String]: number } = {
+    mobile: 375,
+    tablet: 768,
+    laptop: 1024,
+};
+
 export const theme: DefaultTheme = {
+    deviceSizes,
+    device: {
+        mobile: `screen and (max-width: ${deviceSizes.mobile}px)`,
+        tablet: `screen and (max-width: ${deviceSizes.tablet}px)`,
+        laptop: `screen and (max-width: ${deviceSizes.laptop}px)`,
+    },
     colors: {
         primary: "#5D87FF",
         secondary: "#49BEFF",

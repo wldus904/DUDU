@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { theme } from "./theme";
 
 const LayoutWrapper = styled.div`
     height: 100vh;
@@ -17,12 +18,14 @@ const OverLay = styled.div`
     transition-duration: 0s, 0.1s;
     transition-delay: 0.2s, 0s;
 
-    &.on {
-        z-index: 2;
-        background-color: rgba(0, 0, 0, 0.2);
-        transition-property: z-index, background-color;
-        transition-duration: 0s, 0.3s;
-        transition-delay: 0s;
+    @media ${theme.device.tablet} {
+        &.on {
+            z-index: 2;
+            background-color: rgba(0, 0, 0, 0.2);
+            transition-property: z-index, background-color;
+            transition-duration: 0s, 0.3s;
+            transition-delay: 0s;
+        }
     }
 `;
 
@@ -33,8 +36,8 @@ const LayoutBox = styled.div`
 const SideMenuBox = styled.div`
     position: absolute;
     width: 260px;
-    top: 0;
     left: -260px;
+    top: 0;
     z-index: 2;
     background-color: #fff;
     -webkit-transition: left 0.3s;

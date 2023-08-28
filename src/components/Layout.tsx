@@ -1,5 +1,4 @@
-import React, { ReactNode } from "react";
-import Link from "next/link";
+import React, { ReactNode, useRef, useState, useEffect } from "react";
 import Head from "next/head";
 import Header from "./layout/Header";
 import SideMenu from "./layout/SideMenu";
@@ -12,7 +11,7 @@ import {
     MainBox,
     Contents,
 } from "@/styles/layout.ts";
-import { useState } from "react";
+import { theme } from "@/styles/theme";
 
 type Props = {
     children?: ReactNode;
@@ -20,7 +19,22 @@ type Props = {
 };
 
 const Layout = ({ children, title = "DUDU" }: Props) => {
-    let [isShow, setIsShow] = useState(false);
+    const [windowSize, setWindowSize] = useState([window.innerWidth, window.innerHeight]);
+    const [isShow, setIsShow] = useState(false);
+
+    useEffect(() => {
+        const handleWindowResize = () => {
+            setWindowSize([window.innerWidth, window.innerHeight]);
+            if (windowSize[0] > theme.deviceSizes.tablet) setIsShow(true);
+        };
+
+        window.addEventListener("resize", handleWindowResize);
+        handleWindowResize();
+
+        return () => {
+            window.removeEventListener("resize", handleWindowResize);
+        };
+    }, []);
 
     return (
         <div>
@@ -32,7 +46,7 @@ const Layout = ({ children, title = "DUDU" }: Props) => {
             <LayoutWrapper>
                 <OverLay onClick={() => setIsShow(false)} className={isShow ? "on" : ""}></OverLay>
                 <SideMenuBox className={isShow ? "on" : ""}>
-                    <SideMenu />
+                    <SideMenu toggleMenu={() => setIsShow(!isShow)} />
                 </SideMenuBox>
                 <Header toggleMenu={() => setIsShow(!isShow)} />
                 <LayoutBox>

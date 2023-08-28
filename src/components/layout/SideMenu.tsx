@@ -5,9 +5,19 @@ import MainIcon from "../icon/MainIcon";
 import MenuButton from "../button/MenuButton";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { BsX } from "react-icons/bs";
 
 const MainIconWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     padding: 20px;
+
+    .close {
+        width: 28px;
+        height: 28px;
+        cursor: pointer;
+    }
 `;
 const MenuWrapper = styled.div`
     max-width: 260px;
@@ -16,7 +26,7 @@ const MenuWrapper = styled.div`
     font-size: 12px;
 `;
 const MenuContents = styled.nav`
-    height: calc(100vh - 96px);
+    height: calc(100vh - 108px);
     display: flex;
     flex-direction: column;
     padding: 20px;
@@ -27,7 +37,7 @@ const MenuContents = styled.nav`
     }
 `;
 
-const SideMenu = () => {
+const SideMenu = (props) => {
     const router = useRouter();
     const menus = [
         { name: "About", url: "/about" },
@@ -35,10 +45,6 @@ const SideMenu = () => {
         { name: "Users API", url: "/api/users" },
     ];
     let [currentPath, setCurrentPath] = useState(router.pathname);
-
-    const toggleMenu = () => {
-        setIsShow(!isShow);
-    };
 
     const move = (e, url) => {
         e.preventDefault();
@@ -55,6 +61,7 @@ const SideMenu = () => {
         <MenuWrapper>
             <MainIconWrapper>
                 <MainIcon />
+                <BsX onClick={() => props.toggleMenu()} className="close"></BsX>
             </MainIconWrapper>
             <MenuContents>
                 {menus.map((menu) => {

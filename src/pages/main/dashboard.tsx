@@ -1,9 +1,10 @@
 import Layout from "@/components/Layout";
+import Card from "@/components/card/Card";
 
 const Dashboard = () => {
     return (
         <Layout>
-            <p>dashboard</p>
+            <Card>DASHBOARD</Card>
         </Layout>
     );
 };
