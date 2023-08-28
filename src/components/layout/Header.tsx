@@ -43,19 +43,19 @@ const UserMenuWrapper = styled.div`
     top: 55px;
     right: 25px;
     width: 200px;
-    height: 100px;
+    max-height: 150px;
     z-index: 1;
     overflow-y: auto;
     box-shadow: 0 0 4px #d6dbe4;
     background-color: #fff;
     opacity: 0;
-    height: 0;
     transition: 0.2s ease-in-out;
-    transform: translateY (-20px);
+    transform-origin: 0 0;
+    transform: scaleY(0);
 
     &.on {
         opacity: 1;
-        height: 100px;
+        transform: scaleY(1);
     }
 `;
 
