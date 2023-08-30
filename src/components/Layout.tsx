@@ -22,19 +22,19 @@ const Layout = ({ children, title = "DUDU" }: Props) => {
     const [windowSize, setWindowSize] = useState([window.innerWidth, window.innerHeight]);
     const [isShow, setIsShow] = useState(false);
 
-    useEffect(() => {
-        const handleWindowResize = () => {
-            setWindowSize([window.innerWidth, window.innerHeight]);
-            if (windowSize[0] > theme.deviceSizes.tablet) setIsShow(true);
-        };
+    // useEffect(() => {
+    //     const handleWindowResize = () => {
+    //         setWindowSize([window.innerWidth, window.innerHeight]);
+    //         if (windowSize[0] > theme.deviceSizes.tablet) setIsShow(true);
+    //     };
 
-        window.addEventListener("resize", handleWindowResize);
-        handleWindowResize();
+    //     window.addEventListener("resize", handleWindowResize);
+    //     handleWindowResize();
 
-        return () => {
-            window.removeEventListener("resize", handleWindowResize);
-        };
-    }, []);
+    //     return () => {
+    //         window.removeEventListener("resize", handleWindowResize);
+    //     };
+    // }, []);
 
     return (
         <div>
@@ -51,7 +51,7 @@ const Layout = ({ children, title = "DUDU" }: Props) => {
                 <Header toggleMenu={() => setIsShow(!isShow)} />
                 <LayoutBox>
                     <MainBox>
-                        <Contents>{children}</Contents>
+                        <Contents className={isShow ? "on" : ""}>{children}</Contents>
                         <Footer />
                     </MainBox>
                 </LayoutBox>

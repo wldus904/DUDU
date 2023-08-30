@@ -39,12 +39,12 @@ const MenuContents = styled.nav`
 
 const SideMenu = (props) => {
     const router = useRouter();
+    let [currentPath, setCurrentPath] = useState(router.pathname);
     const menus = [
         { name: "About", url: "/about" },
         { name: "Users", url: "/users" },
         { name: "Users API", url: "/api/users" },
     ];
-    let [currentPath, setCurrentPath] = useState(router.pathname);
 
     const move = (e, url) => {
         e.preventDefault();

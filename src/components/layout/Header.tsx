@@ -88,7 +88,7 @@ const Header = (props) => {
             ></BsPersonCircle>
             <UserMenuWrapper className={isShowUserMenu ? "on" : ""}>
                 <UserMenuList>
-                    <Button onClick={logout} color="primary" outline>
+                    <Button onClick={logout} txtColor="#2a3547" color="#fff">
                         로그아웃
                     </Button>
                 </UserMenuList>
