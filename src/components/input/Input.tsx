@@ -9,6 +9,10 @@ const BasicInput = styled.input`
     border: 1px solid #d6dbe4;
     transition: all ease 0.1s;
 
+    &::placeholder {
+        color: #d5d5d5;
+    }
+
     &:focus {
         outline: none;
         border: 1px solid ${theme.colors.warning};
@@ -16,8 +20,12 @@ const BasicInput = styled.input`
     }
 `;
 
-const Input = ({ children, ...rest }) => {
-    return <BasicInput {...rest}>{children}</BasicInput>;
+const Input = ({ children, placeholder, ...rest }) => {
+    return (
+        <BasicInput placeholder={placeholder} {...rest}>
+            {children}
+        </BasicInput>
+    );
 };
 
 export default Input;
