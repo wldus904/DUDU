@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 
 const IconBox = styled.a`
     display: block;
-    width: 100%;
     font-size: 30px;
     font-color: #49497c;
     font-weight: 700;

@@ -4,18 +4,16 @@ import { normalize } from "styled-normalize";
 
 export const GlobalStyle = createGlobalStyle`
     ${normalize}
+    document, html, body {
+      height: 100%;
+      width: 100%;
+    }
+
     html {
       box-sizing: border-box;
       color: #2a3547;
-      height: 100%;
-      width: 100%;
       line-height: 16px;
       font-size: 14px;
-    }
-
-    body {
-      height: 100%;
-      width: 100%;
     }
 
     a { 

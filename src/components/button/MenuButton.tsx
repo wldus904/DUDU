@@ -28,6 +28,7 @@ const MenuButton = ({ children, currentPath, ...rest }) => {
             buttonRef.current.style.color = "#fff";
         }
     }, [currentPath]);
+
     return (
         <Button ref={buttonRef} {...rest}>
             {children}

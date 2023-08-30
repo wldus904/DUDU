@@ -4,6 +4,7 @@ import { theme } from "./theme";
 const LayoutWrapper = styled.div`
     height: 100vh;
     overflow-y: auto;
+    background-color: #fafafa;
     &::-webkit-scrollbar {
         width: 15px; /* 스크롤바의 너비 */
     }
@@ -30,7 +31,7 @@ const OverLay = styled.div`
 `;
 
 const LayoutBox = styled.div`
-    height: 100%;
+    height: calc(100% - 70px);
     display: flex;
 `;
 const SideMenuBox = styled.div`
@@ -54,11 +55,14 @@ const MainBox = styled.div`
     position: relative;
     width: 100vw;
     height: 100%;
-    padding: 20px 50px 0;
 `;
 const Contents = styled.div`
     position: relative;
+    max-width: 900px;
+    padding: 20px;
     min-height: calc(100vh - 100px); // view height - (header + footer)
+    background-color: #fff;
+    margin: auto;
 `;
 
 export { LayoutWrapper, OverLay, LayoutBox, SideMenuBox, MainBox, Contents };
