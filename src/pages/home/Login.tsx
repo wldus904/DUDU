@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 import Button from "@/components/button/Button";
-import Input from "@/components/input/Input";
+import TextBox from "@/components/input/TextBox";
 import MainIcon from "@/components/icon/MainIcon";
 import { theme } from "@/styles/theme";
 import { useRouter } from "next/router";
@@ -86,14 +86,13 @@ const Login = () => {
                     <MainIcon />
                 </MainIconBox>
                 <InputBox>
-                    <Input
-                        type="text"
+                    <TextBox
                         placeholder="아이디"
                         value={id}
                         width="98%"
                         onChange={(e) => setId(e.target.value)}
                     />
-                    <Input
+                    <TextBox
                         type="password"
                         placeholder="비밀번호"
                         value={pwd}
