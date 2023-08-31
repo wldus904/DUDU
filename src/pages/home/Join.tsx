@@ -1,7 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
-import Input from "@/components/input/Input";
+import TextBox from "@/components/input/TextBox";
 import MainIcon from "@/components/icon/MainIcon";
+import RadioGroup from "@/components/input/RadioGroup";
 
 const InputWrapper = styled.div`
     display: flex;
@@ -23,12 +24,22 @@ const InputBox = styled.div`
     padding: 20px;
     background-color: #fff;
     box-shadow: 0 0 4px #d6dbe4;
+
+    input[type="text"] {
+        margin-bottom: 5px;
+    }
 `;
 
-// 1. 입력 항목: 이메일, 비밀번호, 이름, 성별, 나이
+// 1. 입력 항목: 이메일, 비밀번호, 이름, 성별, 생일
 const Join = () => {
     const [id, setId] = useState("");
     const [pwd, setPwd] = useState("");
+    const [name, setName] = useState("");
+    const [gender, setGender] = useState("M");
+    const radios = [
+        { label: "남자", value: "M", defaultChecked: true },
+        { label: "여자", value: "W" },
+    ];
 
     return (
         <InputWrapper>
@@ -36,19 +47,29 @@ const Join = () => {
                 <MainIconBox>
                     <MainIcon />
                 </MainIconBox>
-                <Input
-                    type="text"
+                <TextBox
                     placeholder="이메일"
                     value={id}
                     width="98%"
                     onChange={(e) => setId(e.target.value)}
                 />
-                <Input
-                    type="text"
+                <TextBox
                     placeholder="비밀번호"
                     value={pwd}
                     width="98%"
                     onChange={(e) => setPwd(e.target.value)}
+                />
+                <TextBox
+                    placeholder="이름"
+                    value={name}
+                    width="98%"
+                    onChange={(e) => setName(e.target.value)}
+                />
+                <RadioGroup
+                    radios={radios}
+                    leftTitle="성별"
+                    groupName="gender"
+                    setValue={(value) => setGender(value)}
                 />
             </InputBox>
         </InputWrapper>
