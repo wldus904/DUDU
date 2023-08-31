@@ -3,6 +3,7 @@ import styled from "styled-components";
 import TextBox from "@/components/input/TextBox";
 import MainIcon from "@/components/icon/MainIcon";
 import RadioGroup from "@/components/input/RadioGroup";
+import DatePicker from "@/components/date/DatePicker";
 
 const InputWrapper = styled.div`
     display: flex;
@@ -71,6 +72,7 @@ const Join = () => {
                     groupName="gender"
                     setValue={(value) => setGender(value)}
                 />
+                <DatePicker />
             </InputBox>
         </InputWrapper>
     );
