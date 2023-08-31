@@ -1,0 +1,6 @@
+const convertDateFormat = (date, pattern = null) => {
+    const splitDate = date.toISOString().split("T")[0];
+    return pattern ? splitDate.replaceAll("-", pattern) : splitDate;
+};
+
+export { convertDateFormat };
