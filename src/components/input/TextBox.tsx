@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { theme } from "@/styles/theme";
 
-const BasicInput = styled.input`
+const BasicTextBox = styled.input`
     height: 32px;
     width: ${(props) => props.width ?? "100%"};
     font-size: 14px;
@@ -20,12 +20,12 @@ const BasicInput = styled.input`
     }
 `;
 
-const Input = ({ children, placeholder, ...rest }) => {
+const TextBox = ({ children, placeholder, type, ...rest }) => {
     return (
-        <BasicInput placeholder={placeholder} {...rest}>
+        <BasicTextBox placeholder={placeholder} {...rest} type={type ?? "text"}>
             {children}
-        </BasicInput>
+        </BasicTextBox>
     );
 };
 
-export default Input;
+export default TextBox;
