@@ -6,6 +6,7 @@ const RadioGroupWrapper = styled.fieldset`
     flex-direction: ${(props) => (props.topTitle ? "column" : "row")};
     align-items: center;
     border: none;
+    padding: 0;
 `;
 const Title = styled.span`
     font-weight: 600p;

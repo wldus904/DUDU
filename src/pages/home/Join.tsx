@@ -31,12 +31,23 @@ const InputBox = styled.div`
     }
 `;
 
+const AdditionalInfoBox = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
+
+const BirthDayBox = styled.div`
+    min-width: 120px;
+`;
+
 // 1. 입력 항목: 이메일, 비밀번호, 이름, 성별, 생일
 const Join = () => {
     const [id, setId] = useState("");
     const [pwd, setPwd] = useState("");
     const [name, setName] = useState("");
     const [gender, setGender] = useState("M");
+    const [birthDay, setBirthDay] = useState("");
     const radios = [
         { label: "남자", value: "M", defaultChecked: true },
         { label: "여자", value: "W" },
@@ -66,13 +77,17 @@ const Join = () => {
                     width="98%"
                     onChange={(e) => setName(e.target.value)}
                 />
-                <RadioGroup
-                    radios={radios}
-                    leftTitle="성별"
-                    groupName="gender"
-                    setValue={(value) => setGender(value)}
-                />
-                <DatePicker />
+                <AdditionalInfoBox>
+                    <RadioGroup
+                        radios={radios}
+                        leftTitle="성별"
+                        groupName="gender"
+                        setValue={(value) => setGender(value)}
+                    />
+                    <BirthDayBox>
+                        <DatePicker setValue={setBirthDay} />
+                    </BirthDayBox>
+                </AdditionalInfoBox>
             </InputBox>
         </InputWrapper>
     );
