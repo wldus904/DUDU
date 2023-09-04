@@ -7,11 +7,12 @@ const CalendarWrapper = styled.div`
     box-shadow: 0 0 4px #d0d5dc;
     width: 100%;
     height: 100%;
-    padding: 10px;
+    padding: 15px;
 `;
 
 const CalendarHeader = styled.div`
     text-align: center;
+    margin-bottom: 10px;
 `;
 
 const Year = styled.span`
@@ -49,32 +50,43 @@ const DateBox = styled.div`
         background-color: #ffefef;
     }
 
+    &.today {
+        box-shadow: 0 0 0 1px #ef5350 inset;
+    }
+
     &.active {
         background-color: #ef5350;
         color: #fff;
     }
+
+    &.disabled {
+        color: #dbdbdb;
+    }
 `;
 
 const Calendar = (props) => {
-    let toDay = props.currentDate;
+    let today = new Date(props.currentDate);
     let [calendarDates, setCalendarDates] = useState([]);
     const [selectedYear, setSelectedYear] = useState(null);
     const [selectedMonth, setSelectedMonth] = useState(null);
     const [selectedDate, setSelectedDate] = useState(null);
     const [selectedNode, setSelectedNode] = useState(null);
-    let [startActiveDateNode, setStartActiveDateNode] = useState(null);
-    let [endActiveDateNode, setEndActiveDateNode] = useState(null);
 
     useEffect(() => {
         updateCalendarDates();
     }, []);
+
+    const isToday = (year, month, date) => {
+        return (
+            year === today.getFullYear() && month === today.getMonth() && date === today.getDate()
+        );
+    };
 
     const updateCalendarDates = (updateDate = null) => {
         const prevDate = updateDate ? new Date(updateDate) : new Date();
         prevDate.setDate(1);
         prevDate.setMonth(prevDate.getMonth());
         prevDate.setDate(0);
-        let prevLastDate = prevDate.getDate();
 
         const currentDate = updateDate ? new Date(updateDate) : new Date();
         currentDate.setDate(1);
@@ -84,7 +96,7 @@ const Calendar = (props) => {
         let lastDate = currentDate.getDate();
 
         setSelectedYear(currentDate.getFullYear());
-        setSelectedMonth(currentDate.getMonth().toString().padStart(2, "0"));
+        setSelectedMonth((currentDate.getMonth() + 1).toString().padStart(2, "0"));
 
         const calendar = [];
         let week = [];
@@ -95,23 +107,38 @@ const Calendar = (props) => {
         };
 
         for (let date = firstDay; date > 0; date--) {
-            week.push(prevLastDate - date + 1);
+            week.push({
+                value: prevDate.getDate() - date + 1,
+                isActive: false,
+                today: isToday(prevDate.getFullYear(), prevDate.getMonth(), prevDate.getDate()),
+            });
         }
 
+        if (week.length === 7) setCalendar();
+
         for (let date = 1; date <= lastDate; date++) {
-            if (!startActiveDateNode) setStartActiveDateNode(`${week.length - 1}-${date}`);
-            week.push(date);
+            week.push({
+                value: date,
+                isActive: true,
+                today: isToday(currentDate.getFullYear(), currentDate.getMonth(), date),
+            });
 
             if (week.length === 7) setCalendar();
 
             if (date === lastDate) {
-                setEndActiveDateNode(`${week.length - 1}-${date}`);
-
                 const pushWeek = [];
                 let lastPushDate = null;
 
                 for (let pushDate = 0; pushDate < 7 - week.length; pushDate++) {
-                    pushWeek.push(pushDate + 1);
+                    pushWeek.push({
+                        value: pushDate + 1,
+                        isActive: false,
+                        today: isToday(
+                            currentDate.getFullYear(),
+                            currentDate.getMonth(),
+                            pushDate + 1
+                        ),
+                    });
                 }
 
                 lastPushDate = 7 - week.length;
@@ -125,7 +152,15 @@ const Calendar = (props) => {
                         remainingWeek++
                     ) {
                         for (let pushDate = lastPushDate; pushDate < lastPushDate + 7; pushDate++) {
-                            week.push(pushDate + 1);
+                            week.push({
+                                value: pushDate + 1,
+                                isActive: false,
+                                today: isToday(
+                                    currentDate.getFullYear(),
+                                    currentDate.getMonth() + 1,
+                                    pushDate + 1
+                                ),
+                            });
                         }
                         setCalendar();
                     }
@@ -133,15 +168,26 @@ const Calendar = (props) => {
             }
         }
 
-        console.log("startActiveDateNode ::: ", startActiveDateNode);
-        console.log("endActiveDateNode ::: ", endActiveDateNode);
-
         setCalendarDates(calendar);
     };
 
     const selectDate = (node, date) => {
-        setSelectedDate(date);
+        if (!date.isActive) return;
+        setSelectedDate(date.value);
         setSelectedNode(node);
+        props.setValue(
+            `${selectedYear}.${selectedMonth}.${date.value.toString().padStart(2, "0")}`
+        );
+    };
+
+    const getDateClass = (node, date) => {
+        let className = "";
+
+        if (date.today) className = "today";
+        if (selectedNode === node) className = "active";
+        if (!date.isActive) className = "disabled";
+
+        return className;
     };
 
     return (
@@ -155,20 +201,19 @@ const Calendar = (props) => {
                     {calendarDates.map((week, weekIdx) => {
                         return (
                             <WeekRow key={`week-${weekIdx}`}>
-                                {week.map((date) => {
+                                {week.map((date, dateIdx) => {
                                     return (
-                                        <DateCol key={`${weekIdx}-${date}`}>
+                                        <DateCol key={`${weekIdx}-${date.value}`}>
                                             <DateBox
                                                 onClick={() =>
-                                                    selectDate(`${weekIdx}-${date}`, date)
+                                                    selectDate(`${weekIdx}-${date.value}`, date)
                                                 }
-                                                className={
-                                                    selectedNode === `${weekIdx}-${date}`
-                                                        ? "active"
-                                                        : null
-                                                }
+                                                className={getDateClass(
+                                                    `${weekIdx}-${date.value}`,
+                                                    date
+                                                )}
                                             >
-                                                {date}
+                                                {date.value}
                                             </DateBox>
                                         </DateCol>
                                     );
