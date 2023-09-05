@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { convertDateFormat, convertDayOfWeek } from "@/service/convert.jts";
+import SelectBox from "../input/SelectBox";
 
 const CalendarWrapper = styled.div`
     background-color: #fff;
@@ -31,9 +32,14 @@ const DateTable = styled.table`
     width: 100%;
     height: 100%;
 `;
-const DataBody = styled.tbody``;
+const DateHead = styled.thead``;
+const DateBody = styled.tbody``;
 const WeekRow = styled.tr``;
 const DateCol = styled.td`
+    text-align: center;
+    vertical-align: center;
+`;
+const HeadCol = styled.th`
     text-align: center;
     vertical-align: center;
 `;
@@ -67,12 +73,31 @@ const DateBox = styled.div`
 const Calendar = (props) => {
     let today = new Date(props.currentDate);
     let [calendarDates, setCalendarDates] = useState([]);
-    const [selectedYear, setSelectedYear] = useState(null);
-    const [selectedMonth, setSelectedMonth] = useState(null);
-    const [selectedDate, setSelectedDate] = useState(null);
+    const [selectedYear, setSelectedYear] = useState(today.getFullYear());
+    const [selectedMonth, setSelectedMonth] = useState(
+        (today.getMonth() + 1).toString().padStart(2, "0")
+    );
+    const [selectedDate, setSelectedDate] = useState(today.getDate());
     const [selectedNode, setSelectedNode] = useState(null);
+    const [years, setYears] = useState([]);
+    const [months, setMonths] = useState([]);
 
     useEffect(() => {
+        const date = new Date();
+        const pushYears = [];
+        const pushMonths = [];
+
+        for (let year = date.getFullYear() - 100; year <= date.getFullYear() + 100; year++) {
+            pushYears.push(year);
+        }
+
+        for (let month = 1; month <= 12; month++) {
+            pushMonths.push(month);
+        }
+
+        setYears(pushYears);
+        setMonths(pushMonths);
+
         updateCalendarDates();
     }, []);
 
@@ -193,11 +218,34 @@ const Calendar = (props) => {
     return (
         <CalendarWrapper>
             <CalendarHeader>
-                <Year>{selectedYear}년</Year>
-                <Month>{selectedMonth}월</Month>
+                <Year>
+                    <SelectBox
+                        options={years}
+                        value={selectedYear}
+                        onChange={(e) => {
+                            setSelectedYear(e.target.value);
+                        }}
+                    ></SelectBox>
+                    년
+                </Year>
+                <Month>
+                    <SelectBox
+                        options={months}
+                        value={selectedMonth}
+                        onChange={(e) => {
+                            setSelectedMonth(e.target.value);
+                        }}
+                    ></SelectBox>
+                    월
+                </Month>
             </CalendarHeader>
             <DateTable>
-                <DataBody>
+                <DateHead>
+                    <WeekRow>
+                        <HeadCol></HeadCol>
+                    </WeekRow>
+                </DateHead>
+                <DateBody>
                     {calendarDates.map((week, weekIdx) => {
                         return (
                             <WeekRow key={`week-${weekIdx}`}>
@@ -221,7 +269,7 @@ const Calendar = (props) => {
                             </WeekRow>
                         );
                     })}
-                </DataBody>
+                </DateBody>
             </DateTable>
         </CalendarWrapper>
     );
