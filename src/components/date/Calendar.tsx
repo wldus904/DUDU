@@ -2,27 +2,40 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { convertDateFormat, convertDayOfWeek } from "@/service/convert.jts";
 import SelectBox from "../input/SelectBox";
+import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 
 const CalendarWrapper = styled.div`
     background-color: #fff;
     box-shadow: 0 0 4px #d0d5dc;
     width: 100%;
-    height: 100%;
+    height: calc(100%-30px);
     padding: 15px;
 `;
 
 const CalendarHeader = styled.div`
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+`;
+
+const SelectBoxWrapper = styled.span`
+    margin: 5px;
 `;
 
 const Year = styled.span`
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     font-size: 13px;
     font-weight: 500;
     margin: 0 5px;
 `;
 
 const Month = styled.span`
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     font-size: 14px;
     font-weight: 700;
     margin: 0 5px;
@@ -34,12 +47,14 @@ const DateTable = styled.table`
 `;
 const DateHead = styled.thead``;
 const DateBody = styled.tbody``;
+const DayRow = styled.tr``;
 const WeekRow = styled.tr``;
-const DateCol = styled.td`
+const DayCol = styled.td`
+    font-weight: 600;
     text-align: center;
     vertical-align: center;
 `;
-const HeadCol = styled.th`
+const DateCol = styled.td`
     text-align: center;
     vertical-align: center;
 `;
@@ -72,6 +87,7 @@ const DateBox = styled.div`
 
 const Calendar = (props) => {
     let today = new Date(props.currentDate);
+    const days = ["일", "월", "화", "수", "목", "금", "토"];
     let [calendarDates, setCalendarDates] = useState([]);
     const [selectedYear, setSelectedYear] = useState(today.getFullYear());
     const [selectedMonth, setSelectedMonth] = useState(
@@ -92,7 +108,7 @@ const Calendar = (props) => {
         }
 
         for (let month = 1; month <= 12; month++) {
-            pushMonths.push(month);
+            pushMonths.push(month.toString().padStart(2, "0"));
         }
 
         setYears(pushYears);
@@ -114,14 +130,13 @@ const Calendar = (props) => {
         prevDate.setDate(0);
 
         const currentDate = updateDate ? new Date(updateDate) : new Date();
+        setSelectedYear(currentDate.getFullYear());
+        setSelectedMonth((currentDate.getMonth() + 1).toString().padStart(2, "0"));
         currentDate.setDate(1);
         let firstDay = currentDate.getDay();
         currentDate.setMonth(currentDate.getMonth() + 1);
         currentDate.setDate(0);
         let lastDate = currentDate.getDate();
-
-        setSelectedYear(currentDate.getFullYear());
-        setSelectedMonth((currentDate.getMonth() + 1).toString().padStart(2, "0"));
 
         const calendar = [];
         let week = [];
@@ -160,7 +175,7 @@ const Calendar = (props) => {
                         isActive: false,
                         today: isToday(
                             currentDate.getFullYear(),
-                            currentDate.getMonth(),
+                            currentDate.getMonth() + 1,
                             pushDate + 1
                         ),
                     });
@@ -208,9 +223,9 @@ const Calendar = (props) => {
     const getDateClass = (node, date) => {
         let className = "";
 
-        if (date.today) className = "today";
         if (selectedNode === node) className = "active";
         if (!date.isActive) className = "disabled";
+        if (date.today) className += " today";
 
         return className;
     };
@@ -219,30 +234,46 @@ const Calendar = (props) => {
         <CalendarWrapper>
             <CalendarHeader>
                 <Year>
-                    <SelectBox
-                        options={years}
-                        value={selectedYear}
-                        onChange={(e) => {
-                            setSelectedYear(e.target.value);
-                        }}
-                    ></SelectBox>
+                    <BsChevronLeft />
+                    <SelectBoxWrapper>
+                        <SelectBox
+                            name="year"
+                            options={years}
+                            value={selectedYear}
+                            onChange={(e) => {
+                                updateCalendarDates(`${e.target.value}-${selectedMonth}-01`);
+                            }}
+                        ></SelectBox>
+                    </SelectBoxWrapper>
                     년
+                    <BsChevronRight />
                 </Year>
                 <Month>
-                    <SelectBox
-                        options={months}
-                        value={selectedMonth}
-                        onChange={(e) => {
-                            setSelectedMonth(e.target.value);
-                        }}
-                    ></SelectBox>
+                    <BsChevronLeft />
+                    <SelectBoxWrapper>
+                        <SelectBox
+                            name="month"
+                            options={months}
+                            value={selectedMonth}
+                            onChange={(e) => {
+                                updateCalendarDates(
+                                    `${selectedYear}-${e.target.value
+                                        .toString()
+                                        .padStart(2, "0")}-01`
+                                );
+                            }}
+                        ></SelectBox>
+                    </SelectBoxWrapper>
                     월
+                    <BsChevronRight />
                 </Month>
             </CalendarHeader>
             <DateTable>
                 <DateHead>
                     <WeekRow>
-                        <HeadCol></HeadCol>
+                        {days.map((day, dayIdx) => {
+                            return <DayCol key={day}>{day}</DayCol>;
+                        })}
                     </WeekRow>
                 </DateHead>
                 <DateBody>
