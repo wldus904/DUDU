@@ -32,8 +32,8 @@ const CalendarWrapper = styled.div`
     transition-delay: 0.6s, 0s;
 
     &.on {
-        width: 240px;
-        height: 220px;
+        width: 280px;
+        height: 250px;
         transition-property: width, height;
         transition-duration: 0s, 0.2s;
         transition-delay: 0s, 0.1s;
