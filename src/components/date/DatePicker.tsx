@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { BsCalendarEvent } from "react-icons/bs";
-import { convertDateFormat } from "@/service/convert.jts";
+import { convertDateFormat } from "@/service/convert.ts";
 import Calendar from "./Calendar";
+import { clickOutSide } from "@/service/event.ts";
 
 const DatePickerWrapper = styled.div`
     width: 100%;
@@ -56,9 +57,16 @@ const CalendarBox = styled.div`
 `;
 
 const DatePicker = (props) => {
+    const calendarRef = useRef(null);
     const [showDate, setShowDate] = useState(null);
     const [isShowCalendar, setIsShowCalendar] = useState(true);
     const currentDate = convertDateFormat(new Date(), ".");
+
+    useEffect(() => {
+        clickOutSide(calendarRef, () => {
+            setIsShowCalendar(!isShowCalendar);
+        });
+    }, [calendarRef]);
 
     const setValue = (value) => {
         setShowDate(value);
@@ -72,7 +80,7 @@ const DatePicker = (props) => {
                 <DateValueBox>{showDate}</DateValueBox>
                 <BsCalendarEvent />
             </DatePickerBox>
-            <CalendarWrapper className={isShowCalendar ? "on" : ""}>
+            <CalendarWrapper ref={calendarRef} className={isShowCalendar ? "on" : ""}>
                 {/* {isShowCalendar && ( */}
                 <CalendarBox className={isShowCalendar ? "on" : ""}>
                     <Calendar currentDate={currentDate} setValue={setValue}></Calendar>
