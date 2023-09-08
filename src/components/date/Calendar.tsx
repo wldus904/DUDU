@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { convertDateFormat, convertDayOfWeek } from "@/service/convert.jts";
+import { convertDateFormat, convertDayOfWeek } from "@/service/convert.ts";
 import SelectBox from "../input/SelectBox";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 
@@ -10,11 +10,22 @@ const CalendarWrapper = styled.div`
     width: 100%;
     height: calc(100%-30px);
     padding: 15px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 `;
 
 const CalendarHeader = styled.div`
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 15px;
+
+    svg {
+        cursor: pointer;
+        margin: 0 8px;
+    }
 `;
 
 const SelectBoxWrapper = styled.span`
@@ -22,19 +33,13 @@ const SelectBoxWrapper = styled.span`
 `;
 
 const Year = styled.span`
-    display: inline-flex;
-    flex-direction: row;
-    justify-content: center;
     align-items: center;
-    font-size: 13px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 700;
     margin: 0 5px;
 `;
 
 const Month = styled.span`
-    display: inline-flex;
-    flex-direction: row;
-    justify-content: center;
     align-items: center;
     font-size: 14px;
     font-weight: 700;
@@ -84,6 +89,9 @@ const DateBox = styled.div`
         color: #dbdbdb;
     }
 `;
+
+const _PREV_SIGN = -1;
+const _NEXT_SIGN = 1;
 
 const Calendar = (props) => {
     let today = new Date(props.currentDate);
@@ -211,6 +219,13 @@ const Calendar = (props) => {
         setCalendarDates(calendar);
     };
 
+    const updateMonth = (SIGN) => {
+        const prevDate = new Date(`${selectedYear}-${selectedMonth}-01`);
+        prevDate.setMonth(prevDate.getMonth() + SIGN);
+        const prevDateTxt = prevDate.toISOString().split("T")[0];
+        updateCalendarDates(prevDateTxt);
+    };
+
     const selectDate = (node, date) => {
         if (!date.isActive) return;
         setSelectedDate(date.value);
@@ -233,8 +248,8 @@ const Calendar = (props) => {
     return (
         <CalendarWrapper>
             <CalendarHeader>
+                <BsChevronLeft onClick={() => updateMonth(_PREV_SIGN)} />
                 <Year>
-                    <BsChevronLeft />
                     <SelectBoxWrapper>
                         <SelectBox
                             name="year"
@@ -246,10 +261,8 @@ const Calendar = (props) => {
                         ></SelectBox>
                     </SelectBoxWrapper>
                     년
-                    <BsChevronRight />
                 </Year>
                 <Month>
-                    <BsChevronLeft />
                     <SelectBoxWrapper>
                         <SelectBox
                             name="month"
@@ -265,8 +278,8 @@ const Calendar = (props) => {
                         ></SelectBox>
                     </SelectBoxWrapper>
                     월
-                    <BsChevronRight />
                 </Month>
+                <BsChevronRight onClick={() => updateMonth(_NEXT_SIGN)} />
             </CalendarHeader>
             <DateTable>
                 <DateHead>
