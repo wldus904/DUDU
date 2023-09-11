@@ -5,10 +5,11 @@ import SelectBox from "../input/SelectBox";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 
 const CalendarWrapper = styled.div`
+    display: inline-block;
     background-color: #fff;
     box-shadow: 0 0 4px #d0d5dc;
     width: 100%;
-    height: calc(100%-30px);
+    height: 100%;
     padding: 15px;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -48,7 +49,7 @@ const Month = styled.span`
 
 const DateTable = styled.table`
     width: 100%;
-    height: 100%;
+    // height: 100%;
 `;
 const DateHead = styled.thead``;
 const DateBody = styled.tbody``;
