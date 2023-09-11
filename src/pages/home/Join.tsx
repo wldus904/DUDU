@@ -31,14 +31,12 @@ const InputBox = styled.div`
     }
 `;
 
-const AdditionalInfoBox = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+const RadioGroupBox = styled.div`
+    margin-top: 10px;
 `;
 
-const BirthDayBox = styled.div`
-    min-width: 120px;
+const DatePickerBox = styled.div`
+    margin-top: 10px;
 `;
 
 // 1. 입력 항목: 이메일, 비밀번호, 이름, 성별, 생일
@@ -77,17 +75,22 @@ const Join = () => {
                     width="98%"
                     onChange={(e) => setName(e.target.value)}
                 />
-                <AdditionalInfoBox>
+                <RadioGroupBox>
                     <RadioGroup
                         radios={radios}
                         leftTitle="성별"
                         groupName="gender"
                         setValue={(value) => setGender(value)}
                     />
-                    <BirthDayBox>
-                        <DatePicker setValue={setBirthDay} />
-                    </BirthDayBox>
-                </AdditionalInfoBox>
+                </RadioGroupBox>
+                <DatePickerBox>
+                    <DatePicker
+                        setValue={setBirthDay}
+                        placeholder="생년월일"
+                        aligns="left top"
+                        className="datePicker"
+                    />
+                </DatePickerBox>
             </InputBox>
         </InputWrapper>
     );
