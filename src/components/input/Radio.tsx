@@ -7,6 +7,7 @@ const RadioWrapper = styled.div`
     font-size: 12px;
     border: 1px solid #eae7e7;
     border-radius: 5px;
+    white-space: nowrap;
 
     /* Checked */
     input[type="radio"]:checked + label {
@@ -24,7 +25,6 @@ const RadioWrapper = styled.div`
 const Label = styled.label`
     font-size: 12px;
     display: inline-block;
-    border-radius: 5x;
     padding: 5px 10px;
     text-align: center;
 

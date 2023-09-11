@@ -12,6 +12,7 @@ const Title = styled.span`
     font-weight: 600p;
     margin-bottom: 3px;
     margin-right: 10px;
+    white-space: nowrap;
 `;
 
 const RadioGroupBox = styled.div`
