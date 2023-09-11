@@ -6,53 +6,62 @@ import Calendar from "./Calendar";
 import { clickOutSide } from "@/service/event.ts";
 
 const DatePickerWrapper = styled.div`
+    position: relative;
     width: 100%;
     height: 100%;
 `;
 
 const DatePickerBox = styled.div`
     display: flex;
-    justify-content: right;
+    justify-content: left;
     align-items: center;
     width: 100%;
     height: 100%;
+    font-size: 14px;
     cursor: pointer;
 `;
 
 const DateValueBox = styled.span`
-    margin-right: 10px;
+    margin: 10px;
     font-weight: 500;
 `;
 
-const CalendarWrapper = styled.div`
-    position: relative;
-    width: 0;
-    height: 0;
-    transition-property: width, height;
-    transition-duration: 0s, 0.2s;
-    transition-delay: 0.6s, 0s;
-
-    &.on {
-        width: 280px;
-        height: 250px;
-        transition-property: width, height;
-        transition-duration: 0s, 0.2s;
-        transition-delay: 0s, 0.1s;
-    }
+const Placeholder = styled.span`
+    margin: 10px;
+    color: #e6e6e6;
 `;
 
 const CalendarBox = styled.div`
-    display: none;
+    @keyframes fade-in-dropdown-animation {
+        0% {
+            transform: scale(0);
+        }
+
+        100% {
+            transform: scale(1);
+        }
+    }
+
+    @keyframes fade-out-dropdown-animation {
+        0% {
+            transform: scale(1);
+        }
+
+        100% {
+            transform: scale(0);
+        }
+    }
     position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 10px;
-    right: 0;
+    width: 300px;
+    height: 300px;
+    top: 25px;
+    left: 0;
+    animation: fade-out-dropdown-animation 0.4s ease;
+    animation-fill-mode: forwards;
+    transform-origin: ${(props) => props.aligns};
 
     &.on {
-        display: block;
-        transition-property: display;
-        transition-delay: 0.2s;
+        animation: fade-in-dropdown-animation 0.4s ease;
     }
 `;
 
@@ -75,18 +84,22 @@ const DatePicker = (props) => {
     };
 
     return (
-        <DatePickerWrapper>
+        <DatePickerWrapper ref={calendarRef}>
             <DatePickerBox onClick={() => setIsShowCalendar(!isShowCalendar)}>
-                <DateValueBox>{showDate}</DateValueBox>
                 <BsCalendarEvent />
+                {showDate ? (
+                    <DateValueBox>{showDate}</DateValueBox>
+                ) : (
+                    <Placeholder>{props.placeholder}</Placeholder>
+                )}
             </DatePickerBox>
-            <CalendarWrapper ref={calendarRef} className={isShowCalendar ? "on" : ""}>
-                {/* {isShowCalendar && ( */}
-                <CalendarBox className={isShowCalendar ? "on" : ""}>
-                    <Calendar currentDate={currentDate} setValue={setValue}></Calendar>
-                </CalendarBox>
-                {/* )} */}
-            </CalendarWrapper>
+            <CalendarBox aligns={props.aligns} className={isShowCalendar ? "on" : ""}>
+                <Calendar
+                    currentDate={currentDate}
+                    setValue={setValue}
+                    className="calendar"
+                ></Calendar>
+            </CalendarBox>
         </DatePickerWrapper>
     );
 };
