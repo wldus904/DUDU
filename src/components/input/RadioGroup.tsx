@@ -27,7 +27,7 @@ const RadioGroup = ({ setValue, radios, topTitle, leftTitle, groupName, disabled
 
     return (
         <RadioGroupWrapper topTitle={topTitle} disabled={disabled}>
-            <Title>{topTitle ?? leftTitle}</Title>
+            {topTitle || leftTitle ? <Title>{topTitle || leftTitle}</Title> : null}
             <RadioGroupBox onChange={onChangeValue}>
                 {radios.map((radio) => {
                     return (

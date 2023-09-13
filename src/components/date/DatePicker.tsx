@@ -68,7 +68,7 @@ const CalendarBox = styled.div`
 const DatePicker = (props) => {
     const calendarRef = useRef(null);
     const [showDate, setShowDate] = useState(null);
-    const [isShowCalendar, setIsShowCalendar] = useState(true);
+    const [isShowCalendar, setIsShowCalendar] = useState(false);
     const currentDate = convertDateFormat(new Date(), ".");
 
     useEffect(() => {
