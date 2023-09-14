@@ -73,7 +73,7 @@ const DatePicker = (props) => {
 
     useEffect(() => {
         clickOutSide(calendarRef, () => {
-            setIsShowCalendar(!isShowCalendar);
+            setIsShowCalendar(false);
         });
     }, [calendarRef]);
 
