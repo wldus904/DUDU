@@ -4,11 +4,16 @@ import { BsCalendarEvent } from "react-icons/bs";
 import { convertDateFormat } from "@/service/convert.ts";
 import Calendar from "./Calendar";
 import { clickOutSide } from "@/service/event.ts";
+import { theme } from "@/styles/theme";
 
 const DatePickerWrapper = styled.div`
     position: relative;
     width: 100%;
     height: 100%;
+
+    &.invalid {
+        border-bottom: 1px solid ${theme.colors.error};
+    }
 `;
 
 const DatePickerBox = styled.div`
@@ -69,6 +74,7 @@ const DatePicker = (props) => {
     const calendarRef = useRef(null);
     const [showDate, setShowDate] = useState(null);
     const [isShowCalendar, setIsShowCalendar] = useState(false);
+    const [isValid, setIsValid] = useState(true);
     const currentDate = convertDateFormat(new Date(), ".");
 
     useEffect(() => {
@@ -77,6 +83,19 @@ const DatePicker = (props) => {
         });
     }, [calendarRef]);
 
+    const checkValid = () => {
+        let res = true;
+
+        props.rules.forEach((validator) => {
+            if (!validator(showDate)) res = false;
+        });
+
+        setIsValid(res);
+        props.setValid(isValid);
+    };
+
+    useEffect(checkValid, [isShowCalendar]);
+
     const setValue = (value) => {
         setShowDate(value);
         props.setValue(value);
@@ -84,7 +103,7 @@ const DatePicker = (props) => {
     };
 
     return (
-        <DatePickerWrapper ref={calendarRef}>
+        <DatePickerWrapper ref={calendarRef} className={isValid ? "" : "invalid"}>
             <DatePickerBox onClick={() => setIsShowCalendar(!isShowCalendar)}>
                 <BsCalendarEvent />
                 {showDate ? (

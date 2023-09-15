@@ -36,7 +36,7 @@ const BasicTextBox = styled.input`
     }
 `;
 
-const TextBox = ({ children, placeholder, rules, ...rest }) => {
+const TextBox = ({ children, placeholder, rules, isSelect, ...rest }) => {
     const [isValid, setIsValid] = useState(true);
 
     const checkValid = (value) => {
@@ -47,13 +47,14 @@ const TextBox = ({ children, placeholder, rules, ...rest }) => {
         });
 
         setIsValid(res);
-        rest.setValid(isValid);
+        rest.setValid(res);
     };
 
     return (
         <TextBoxWrapper className={isValid ? "" : "invalid"}>
             <BasicTextBox
                 onBlur={(e) => checkValid(e.target.value)}
+                onFocus={(e) => isSelect && e.target.select()}
                 placeholder={placeholder}
                 {...rest}
                 type="text"

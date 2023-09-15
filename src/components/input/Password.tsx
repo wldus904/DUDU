@@ -48,7 +48,7 @@ const IconBtnBox = styled.div`
     cursor: pointer;
 `;
 
-const Password = ({ children, placeholder, type, rules, ...rest }) => {
+const Password = ({ children, placeholder, type, rules, isSelect, ...rest }) => {
     const [isShow, setIsShow] = useState(false);
     const [isValid, setIsValid] = useState(true);
 
@@ -60,13 +60,14 @@ const Password = ({ children, placeholder, type, rules, ...rest }) => {
         });
 
         setIsValid(res);
-        rest.setValid(isValid);
+        rest.setValid(res);
     };
 
     return (
         <PasswordWrapper className={isValid ? "" : "invalid"}>
             <BasicPasswordBox
                 onBlur={(e) => checkValid(e.target.value)}
+                onFocus={(e) => isSelect && e.target.select()}
                 placeholder={placeholder}
                 {...rest}
                 type={isShow ? "text" : "password"}
