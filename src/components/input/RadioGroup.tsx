@@ -20,9 +20,29 @@ const RadioGroupBox = styled.div`
     flex-direction: row;
 `;
 
-const RadioGroup = ({ setValue, radios, topTitle, leftTitle, groupName, disabled }) => {
+const RadioGroup = ({
+    setValue,
+    radios,
+    topTitle,
+    leftTitle,
+    groupName,
+    disabled,
+    rules,
+    setValid,
+}) => {
     const onChangeValue = (e) => {
         setValue(e.target.value);
+        checkValid(e.target.value);
+    };
+
+    const checkValid = (value) => {
+        let res = true;
+
+        rules.forEach((validator) => {
+            if (!validator(value)) res = false;
+        });
+
+        setValid(res);
     };
 
     return (
