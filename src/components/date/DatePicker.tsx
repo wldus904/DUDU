@@ -91,7 +91,7 @@ const DatePicker = (props) => {
         });
 
         setIsValid(res);
-        props.setValid(isValid);
+        props.setValid(res);
     };
 
     useEffect(checkValid, [isShowCalendar]);
