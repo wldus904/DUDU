@@ -71,16 +71,24 @@ const OutlineButton = styled(DefaultButton)`
     }
 `;
 
-const Button = ({ children, loading, ...rest }) => {
+const Button = ({ children, loading, disabled, ...rest }) => {
     if (rest.outline)
         return (
-            <OutlineButton className={loading ? "" : "able"} disabled={loading} {...rest}>
+            <OutlineButton
+                className={loading || disabled ? "" : "able"}
+                disabled={loading || disabled}
+                {...rest}
+            >
                 {loading ? <Spinner size="20px"></Spinner> : children}
             </OutlineButton>
         );
     else
         return (
-            <BasicButton className={loading ? "" : "able"} disabled={loading} {...rest}>
+            <BasicButton
+                className={loading || disabled ? "" : "able"}
+                disabled={loading || disabled}
+                {...rest}
+            >
                 {loading ? <Spinner size="20px"></Spinner> : children}
             </BasicButton>
         );
