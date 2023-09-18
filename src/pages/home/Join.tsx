@@ -55,7 +55,7 @@ const Join = () => {
         pwd: false,
         checkPwd: false,
         name: false,
-        gender: false,
+        gender: true,
         birthDay: false,
     });
     const [loading, setLoading] = useState(false);
@@ -63,6 +63,16 @@ const Join = () => {
         { label: "남자", value: "M", defaultChecked: true },
         { label: "여자", value: "W" },
     ];
+
+    useEffect(() => {
+        let res = true;
+        Object.keys(optionValid).forEach((valid) => {
+            if (!optionValid[valid]) {
+                res = false;
+            }
+        });
+        setIsValid(res);
+    }, [optionValid]);
 
     const startJoin = () => {
         setLoading(true);
@@ -75,18 +85,6 @@ const Join = () => {
             setMsg("아이디 또는 비밀번호를 잘못 입력했습니다");
             setLoading(false);
         }
-    };
-
-    const checkValid = (optionName, value) => {
-        setOptionValid((prevState) => {
-            prevState[optionName] = value;
-            return prevState;
-        });
-        console.log("optionValid ::: ", optionValid);
-
-        Object.values(optionValid).forEach((valid) => {
-            if (!valid) setIsValid(false);
-        });
     };
 
     const checkPwdValidator = () => {
@@ -107,8 +105,7 @@ const Join = () => {
                         width="98%"
                         onChange={(e) => setEmail(e.target.value)}
                         setValid={(value) => {
-                            console.log("이메일", value);
-                            checkValid("email", value);
+                            setOptionValid({ ...optionValid, email: value });
                         }}
                         autoComplete="off"
                         isSelect
@@ -122,8 +119,7 @@ const Join = () => {
                         width="98%"
                         onChange={(e) => setPwd(e.target.value)}
                         setValid={(value) => {
-                            console.log("비밀번호", value);
-                            checkValid("pwd", value);
+                            setOptionValid({ ...optionValid, pwd: value });
                         }}
                         isSelect
                     />
@@ -136,8 +132,7 @@ const Join = () => {
                         width="98%"
                         onChange={(e) => setCheckPwd(e.target.value)}
                         setValid={(value) => {
-                            console.log("비밀번호 확인", value);
-                            checkValid("checkPwd", value);
+                            setOptionValid({ ...optionValid, checkPwd: value });
                         }}
                         isSelect
                     />
@@ -150,8 +145,7 @@ const Join = () => {
                         width="98%"
                         onChange={(e) => setName(e.target.value)}
                         setValid={(value) => {
-                            console.log("이름", value);
-                            checkValid("name", value);
+                            setOptionValid({ ...optionValid, name: value });
                         }}
                         autoComplete="off"
                         isSelect
@@ -165,8 +159,7 @@ const Join = () => {
                         width="98%"
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         setValid={(value) => {
-                            console.log("전화번호", value);
-                            checkValid("phoneNumber", value);
+                            setOptionValid({ ...optionValid, phoneNumber: value });
                         }}
                         autoComplete="off"
                         isSelect
@@ -180,8 +173,7 @@ const Join = () => {
                         groupName="gender"
                         setValue={(value) => setGender(value)}
                         setValid={(value) => {
-                            console.log("성별", value);
-                            checkValid("gender", value);
+                            setOptionValid({ ...optionValid, gender: value });
                         }}
                     />
                 </OptionBox>
@@ -194,18 +186,15 @@ const Join = () => {
                         aligns="left top"
                         className="datePicker"
                         setValid={(value) => {
-                            console.log("생년월일", value);
-                            checkValid("birthDay", value);
+                            setOptionValid({ ...optionValid, birthDay: value });
                         }}
                     />
                 </OptionBox>
             </InputBox>
 
-            {isValid && (
-                <Button color="error" loading={loading} onClick={startJoin}>
-                    회원가입
-                </Button>
-            )}
+            <Button color="error" loading={loading} disabled={!isValid} onClick={startJoin}>
+                회원가입
+            </Button>
         </InputWrapper>
     );
 };
