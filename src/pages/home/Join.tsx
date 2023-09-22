@@ -6,7 +6,8 @@ import MainIcon from "@/components/icon/MainIcon";
 import RadioGroup from "@/components/input/RadioGroup";
 import DatePicker from "@/components/date/DatePicker";
 import Button from "@/components/button/Button";
-import { required, phoneNumberValidator, emailValidator, passwordValidator } from "@/service/valid";
+import { required, phoneNumberValidator, emailValidator, passwordValidator } from "@/utils/valid";
+import * as joinApi from "@/apis/user/registration.ts";
 
 const InputWrapper = styled.div`
     display: flex;
@@ -41,13 +42,13 @@ const Title = styled.div`
 `;
 
 const Join = () => {
-    const [email, setEmail] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const [pwd, setPwd] = useState("");
-    const [checkPwd, setCheckPwd] = useState("");
-    const [name, setName] = useState("");
+    const [email, setEmail] = useState("test@test.com");
+    const [phoneNumber, setPhoneNumber] = useState("01011112222");
+    const [pwd, setPwd] = useState("chlrkd904!");
+    const [checkPwd, setCheckPwd] = useState("chlrkd904!");
+    const [name, setName] = useState("test");
     const [gender, setGender] = useState("M");
-    const [birthDay, setBirthDay] = useState("");
+    const [birthDay, setBirthDay] = useState("2022-09-30");
     const [isValid, setIsValid] = useState(false);
     const [optionValid, setOptionValid] = useState({
         email: false,
@@ -65,6 +66,7 @@ const Join = () => {
     ];
 
     useEffect(() => {
+        console.log("window.location.pathname ::: ", window.location.pathname);
         let res = true;
         Object.keys(optionValid).forEach((valid) => {
             if (!optionValid[valid]) {
@@ -74,17 +76,17 @@ const Join = () => {
         setIsValid(res);
     }, [optionValid]);
 
-    const startJoin = () => {
+    const startJoin = async () => {
         setLoading(true);
-        setMsg("");
-
-        if (email === "test" && pwd === "test") {
-            localStorage.setItem("user", "abcd1234");
-            router.push("/main/dashboard");
-        } else {
-            setMsg("아이디 또는 비밀번호를 잘못 입력했습니다");
-            setLoading(false);
-        }
+        const response = await joinApi.postRegistration({
+            email,
+            phoneNumber,
+            pwd,
+            name,
+            gender,
+            birthDay,
+        });
+        console.log("response ::: ", response);
     };
 
     const checkPwdValidator = () => {
@@ -192,7 +194,8 @@ const Join = () => {
                 </OptionBox>
             </InputBox>
 
-            <Button color="error" loading={loading} disabled={!isValid} onClick={startJoin}>
+            {/* <Button color="error" loading={loading} disabled={!isValid} onClick={startJoin}> */}
+            <Button color="error" loading={loading} disabled={false} onClick={startJoin}>
                 회원가입
             </Button>
         </InputWrapper>

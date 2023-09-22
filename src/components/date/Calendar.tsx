@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { convertDateFormat, convertDayOfWeek } from "@/service/convert.ts";
+import { convertDateFormat, convertDayOfWeek } from "@/utils/convert.ts";
 import SelectBox from "../input/SelectBox";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 
