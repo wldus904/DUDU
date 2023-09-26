@@ -55,7 +55,7 @@ const Login = () => {
     const [pwd, setPwd] = useState("");
     const [msg, setMsg] = useState("");
     const [loading, setLoading] = useState(false);
-    const finds = [{ name: "회원가입", url: "/home/join" }];
+    const finds = [{ name: "회원가입", url: "/home/registration" }];
 
     const setValue = (e, ref) => {
         ref.current = e.target.value;
