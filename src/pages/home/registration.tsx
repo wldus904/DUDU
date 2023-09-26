@@ -6,8 +6,10 @@ import MainIcon from "@/components/icon/MainIcon";
 import RadioGroup from "@/components/input/RadioGroup";
 import DatePicker from "@/components/date/DatePicker";
 import Button from "@/components/button/Button";
+import Complete from "./registrationCompleted";
 import { required, phoneNumberValidator, emailValidator, passwordValidator } from "@/utils/valid";
-import * as joinApi from "@/apis/user/registration.ts";
+import * as registrationApi from "@/apis/user/registration.ts";
+import { useRouter } from "next/router";
 
 const InputWrapper = styled.div`
     display: flex;
@@ -41,14 +43,15 @@ const Title = styled.div`
     min-width: 70px;
 `;
 
-const Join = () => {
-    const [email, setEmail] = useState("test@test.com");
-    const [phoneNumber, setPhoneNumber] = useState("01011112222");
-    const [pwd, setPwd] = useState("chlrkd904!");
-    const [checkPwd, setCheckPwd] = useState("chlrkd904!");
-    const [name, setName] = useState("test");
-    const [gender, setGender] = useState("M");
-    const [birthDay, setBirthDay] = useState("2022-09-30");
+const Registration = () => {
+    const router = useRouter();
+    const [email, setEmail] = useState();
+    const [phoneNumber, setPhoneNumber] = useState();
+    const [pwd, setPwd] = useState();
+    const [checkPwd, setCheckPwd] = useState();
+    const [name, setName] = useState();
+    const [gender, setGender] = useState();
+    const [birthDay, setBirthDay] = useState();
     const [isValid, setIsValid] = useState(false);
     const [optionValid, setOptionValid] = useState({
         email: false,
@@ -66,7 +69,6 @@ const Join = () => {
     ];
 
     useEffect(() => {
-        console.log("window.location.pathname ::: ", window.location.pathname);
         let res = true;
         Object.keys(optionValid).forEach((valid) => {
             if (!optionValid[valid]) {
@@ -76,17 +78,17 @@ const Join = () => {
         setIsValid(res);
     }, [optionValid]);
 
-    const startJoin = async () => {
+    const userRegistration = async () => {
         setLoading(true);
-        const response = await joinApi.postRegistration({
-            email,
-            phoneNumber,
-            pwd,
-            name,
-            gender,
-            birthDay,
-        });
-        console.log("response ::: ", response);
+        // await registrationApi.postRegistration({
+        //     email,
+        //     phoneNumber,
+        //     pwd,
+        //     name,
+        //     gender,
+        //     birthDay,
+        // });
+        router.replace("/home/registrationCompleted");
     };
 
     const checkPwdValidator = () => {
@@ -194,12 +196,12 @@ const Join = () => {
                 </OptionBox>
             </InputBox>
 
-            {/* <Button color="error" loading={loading} disabled={!isValid} onClick={startJoin}> */}
-            <Button color="error" loading={loading} disabled={false} onClick={startJoin}>
+            {/* <Button color="error" loading={loading} disabled={!isValid} onClick={userRegistration}> */}
+            <Button color="error" loading={loading} disabled={false} onClick={userRegistration}>
                 회원가입
             </Button>
         </InputWrapper>
     );
 };
 
-export default Join;
+export default Registration;
