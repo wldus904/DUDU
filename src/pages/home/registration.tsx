@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import TextBox from "@/components/input/TextBox";
 import Password from "@/components/input/Password";
@@ -6,7 +6,7 @@ import MainIcon from "@/components/icon/MainIcon";
 import RadioGroup from "@/components/input/RadioGroup";
 import DatePicker from "@/components/date/DatePicker";
 import Button from "@/components/button/Button";
-import Complete from "./registrationCompleted";
+import DefaultDialog from "@/components/dialog/DefaultDialog";
 import { required, phoneNumberValidator, emailValidator, passwordValidator } from "@/utils/valid";
 import * as registrationApi from "@/apis/user/registration.ts";
 import { useRouter } from "next/router";
@@ -63,6 +63,7 @@ const Registration = () => {
         birthDay: false,
     });
     const [loading, setLoading] = useState(false);
+    const completeDialogRef = useRef();
     const radios = [
         { label: "남자", value: "M", defaultChecked: true },
         { label: "여자", value: "W" },
@@ -88,7 +89,8 @@ const Registration = () => {
         //     gender,
         //     birthDay,
         // });
-        router.replace("/home/registrationCompleted");
+        completeDialogRef.current.open();
+        // router.replace("/home/registrationCompleted");
     };
 
     const checkPwdValidator = () => {
@@ -200,6 +202,8 @@ const Registration = () => {
             <Button color="error" loading={loading} disabled={false} onClick={userRegistration}>
                 회원가입
             </Button>
+
+            <DefaultDialog ref={completeDialogRef}>회원가입 완료</DefaultDialog>
         </InputWrapper>
     );
 };
