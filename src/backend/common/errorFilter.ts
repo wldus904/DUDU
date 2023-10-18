@@ -12,6 +12,7 @@ export default function errorFilter(handler: Handler) {
         try {
             return handler(req, res);
         } catch (error) {
+            console.log("error ::: ", error);
             return res.status(500).json({ message: "알 수 없는 오류가 발생했습니다." });
         }
     };

@@ -1,7 +1,8 @@
-import { useState, forwardRef, useImperativeHandle } from "react";
+import { useState, forwardRef, useImperativeHandle, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { BsX } from "react-icons/bs";
 import Overlay from "@/components/overlay/Overlay";
+import { clickOutSide } from "@/utils/event.ts";
 
 const DialogWrapper = styled.div`
     width: 100%;
@@ -86,35 +87,44 @@ const Contents = styled.pre`
     margin: 0;
 `;
 
-const DefaultDialog = forwardRef(({ children, title, isShowClose, ...rest }, ref) => {
-    const [isShow, setIsShow] = useState(false);
-    const [className, setClassName] = useState("");
+const DefaultDialog = forwardRef(
+    ({ children, title, isShowClose, isOutSideClose, ...rest }, ref) => {
+        const dialogRef = useRef(null);
+        const [isShow, setIsShow] = useState(false);
+        const [className, setClassName] = useState("");
 
-    useImperativeHandle(ref, () => ({ open, close }));
+        useImperativeHandle(ref, () => ({ open, close }));
 
-    const open = () => {
-        setIsShow(true);
-        setClassName("show");
-    };
+        useEffect(() => {
+            clickOutSide(dialogRef, () => {
+                if (isOutSideClose) close();
+            });
+        }, [dialogRef]);
 
-    const close = () => {
-        setIsShow(false);
-        setClassName("hidden");
-    };
+        const open = () => {
+            setIsShow(true);
+            setClassName("show");
+        };
 
-    return (
-        <Overlay isShow={isShow} isToggle={true}>
-            <DialogWrapper>
-                <DialogBox {...rest} className={className}>
-                    <Header>
-                        <Title>{title}</Title>
-                        {isShowClose && <BsX onClick={close} className="close-btn" />}
-                    </Header>
-                    <Contents>{children}</Contents>
-                </DialogBox>
-            </DialogWrapper>
-        </Overlay>
-    );
-});
+        const close = () => {
+            setIsShow(false);
+            setClassName("hidden");
+        };
+
+        return (
+            <Overlay isShow={isShow} isToggle={true}>
+                <DialogWrapper>
+                    <DialogBox ref={dialogRef} {...rest} className={className}>
+                        <Header>
+                            <Title>{title}</Title>
+                            {isShowClose && <BsX onClick={close} className="close-btn" />}
+                        </Header>
+                        <Contents>{children}</Contents>
+                    </DialogBox>
+                </DialogWrapper>
+            </Overlay>
+        );
+    }
+);
 
 export default DefaultDialog;

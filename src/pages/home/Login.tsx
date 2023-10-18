@@ -101,7 +101,7 @@ const Login = () => {
                     />
                 </InputBox>
                 <WarningMsg>{msg}</WarningMsg>
-                <Button color="error" loading={loading} onClick={startLogin}>
+                <Button color="primary" loading={loading} onClick={startLogin}>
                     로그인
                 </Button>
             </LoginBox>
