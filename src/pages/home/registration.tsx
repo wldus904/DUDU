@@ -102,7 +102,7 @@ const Registration = () => {
         { label: "여자", value: "W" },
     ];
 
-    useEffect(() => {
+    const validator = () => {
         let res = true;
         Object.keys(optionValid).forEach((valid) => {
             if (!optionValid[valid]) {
@@ -110,9 +110,12 @@ const Registration = () => {
             }
         });
         setIsValid(res);
-    }, [optionValid]);
+    };
 
     const userRegistration = async () => {
+        validator();
+        if (!isValid) return;
+
         setLoading(true);
         try {
             const res = await registrationApi.postRegistration({
@@ -123,10 +126,8 @@ const Registration = () => {
                 gender,
                 birthDay,
             });
-            console.log("res ::: ", res);
             completeDialogRef.current.open();
         } catch (error) {
-            setErrorMsg(error);
             errorDialogRef.current.open();
         }
     };
@@ -142,6 +143,8 @@ const Registration = () => {
     const closeErrorDialog = () => {
         errorDialogRef.current.close();
     };
+
+    useEffect(validator, [optionValid]);
 
     return (
         <RegistrationWrapper>
@@ -248,7 +251,7 @@ const Registration = () => {
                 <Button
                     color="primary"
                     loading={loading}
-                    disabled={false}
+                    disabled={!isValid}
                     onClick={userRegistration}
                 >
                     회원가입
