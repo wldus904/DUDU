@@ -1,7 +1,7 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { StyledInterface } from "styled-components";
 
-const FooterBox = styled.footer`
+const FooterBox: StyledInterface = styled.footer`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,7 +10,7 @@ const FooterBox = styled.footer`
     // transform: translateY(100vh);
 `;
 
-const Footer = () => (
+const Footer = (): JSX.Element => (
     <FooterBox>
         <span>Made by jypark2781@gmail.com</span>
     </FooterBox>

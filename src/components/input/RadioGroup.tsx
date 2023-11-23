@@ -1,21 +1,21 @@
-import styled from "styled-components";
+import styled, { StyledInterface } from "styled-components";
 import Radio from "./Radio";
 
-const RadioGroupWrapper = styled.fieldset`
+const RadioGroupWrapper: StyledInterface = styled.fieldset`
     display: flex;
     flex-direction: ${(props) => (props.topTitle ? "column" : "row")};
     align-items: center;
     border: none;
     padding: 0;
 `;
-const Title = styled.span`
+const Title: StyledInterface = styled.span`
     font-weight: 600p;
     margin-bottom: 3px;
     margin-right: 10px;
     white-space: nowrap;
 `;
 
-const RadioGroupBox = styled.div`
+const RadioGroupBox: StyledInterface = styled.div`
     display: flex;
     flex-direction: row;
 `;
@@ -29,14 +29,14 @@ const RadioGroup = ({
     disabled,
     rules,
     setValid,
-}) => {
-    const onChangeValue = (e) => {
+}): JSX.Element => {
+    const onChangeValue = (e: Event): void => {
         setValue(e.target.value);
         checkValid(e.target.value);
     };
 
-    const checkValid = (value) => {
-        let res = true;
+    const checkValid = (value): void => {
+        let res: Boolean = true;
 
         rules.forEach((validator) => {
             if (!validator(value)) res = false;

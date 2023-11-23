@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
-import styled from "styled-components";
-import { convertDateFormat, convertDayOfWeek } from "@/utils/convert.ts";
+import styled, { StyledInterface } from "styled-components";
 import SelectBox from "../input/SelectBox";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 
-const CalendarWrapper = styled.div`
+const CalendarWrapper: StyledInterface = styled.div`
     display: inline-block;
     background-color: #fff;
     box-shadow: 0 0 4px #d0d5dc;
@@ -17,7 +16,7 @@ const CalendarWrapper = styled.div`
     user-select: none;
 `;
 
-const CalendarHeader = styled.div`
+const CalendarHeader: StyledInterface = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -29,42 +28,42 @@ const CalendarHeader = styled.div`
     }
 `;
 
-const SelectBoxWrapper = styled.span`
+const SelectBoxWrapper: StyledInterface = styled.span`
     margin: 5px;
 `;
 
-const Year = styled.span`
+const Year: StyledInterface = styled.span`
     align-items: center;
     font-size: 14px;
     font-weight: 700;
     margin: 0 5px;
 `;
 
-const Month = styled.span`
+const Month: StyledInterface = styled.span`
     align-items: center;
     font-size: 14px;
     font-weight: 700;
     margin: 0 5px;
 `;
 
-const DateTable = styled.table`
+const DateTable: StyledInterface = styled.table`
     width: 100%;
     // height: 100%;
 `;
-const DateHead = styled.thead``;
-const DateBody = styled.tbody``;
-const DayRow = styled.tr``;
-const WeekRow = styled.tr``;
-const DayCol = styled.td`
+const DateHead: StyledInterface = styled.thead``;
+const DateBody: StyledInterface = styled.tbody``;
+const DayRow: StyledInterface = styled.tr``;
+const WeekRow: StyledInterface = styled.tr``;
+const DayCol: StyledInterface = styled.td`
     font-weight: 600;
     text-align: center;
     vertical-align: center;
 `;
-const DateCol = styled.td`
+const DateCol: StyledInterface = styled.td`
     text-align: center;
     vertical-align: center;
 `;
-const DateBox = styled.div`
+const DateBox: StyledInterface = styled.div`
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -91,26 +90,26 @@ const DateBox = styled.div`
     }
 `;
 
-const _PREV_SIGN = -1;
-const _NEXT_SIGN = 1;
+const _PREV_SIGN: Number = -1;
+const _NEXT_SIGN: Number = 1;
 
-const Calendar = (props) => {
-    let today = new Date(props.currentDate);
-    const days = ["일", "월", "화", "수", "목", "금", "토"];
-    let [calendarDates, setCalendarDates] = useState([]);
-    const [selectedYear, setSelectedYear] = useState(today.getFullYear());
-    const [selectedMonth, setSelectedMonth] = useState(
+const Calendar = (props): JSX.Element => {
+    let today: Date = new Date(props.currentDate);
+    const days: Array<string> = ["일", "월", "화", "수", "목", "금", "토"];
+    let [calendarDates, setCalendarDates] = useState<Array<[]>>([]);
+    const [selectedYear, setSelectedYear] = useState<Number | null>(today.getFullYear());
+    const [selectedMonth, setSelectedMonth] = useState<string | null>(
         (today.getMonth() + 1).toString().padStart(2, "0")
     );
-    const [selectedDate, setSelectedDate] = useState(today.getDate());
-    const [selectedNode, setSelectedNode] = useState(null);
-    const [years, setYears] = useState([]);
-    const [months, setMonths] = useState([]);
+    const [selectedDate, setSelectedDate] = useState<Number | null>(today.getDate());
+    const [selectedNode, setSelectedNode] = useState<string | null>(null);
+    const [years, setYears] = useState<Array<Number>>([]);
+    const [months, setMonths] = useState<Array<string>>([]);
 
     useEffect(() => {
-        const date = new Date();
-        const pushYears = [];
-        const pushMonths = [];
+        const date: Date = new Date();
+        const pushYears: Array<Number> = [];
+        const pushMonths: Array<String> = [];
 
         for (let year = date.getFullYear() - 100; year <= date.getFullYear() + 100; year++) {
             pushYears.push(year);
@@ -126,31 +125,31 @@ const Calendar = (props) => {
         updateCalendarDates();
     }, []);
 
-    const isToday = (year, month, date) => {
+    const isToday = (year: Number, month: Number, date: Number): Boolean => {
         return (
             year === today.getFullYear() && month === today.getMonth() && date === today.getDate()
         );
     };
 
-    const updateCalendarDates = (updateDate = null) => {
-        const prevDate = updateDate ? new Date(updateDate) : new Date();
+    const updateCalendarDates = (updateDate: string | null = null) => {
+        const prevDate: Date = updateDate ? new Date(updateDate) : new Date();
         prevDate.setDate(1);
         prevDate.setMonth(prevDate.getMonth());
         prevDate.setDate(0);
 
-        const currentDate = updateDate ? new Date(updateDate) : new Date();
+        const currentDate: Date = updateDate ? new Date(updateDate) : new Date();
         setSelectedYear(currentDate.getFullYear());
         setSelectedMonth((currentDate.getMonth() + 1).toString().padStart(2, "0"));
         currentDate.setDate(1);
-        let firstDay = currentDate.getDay();
+        let firstDay: Number = currentDate.getDay();
         currentDate.setMonth(currentDate.getMonth() + 1);
         currentDate.setDate(0);
-        let lastDate = currentDate.getDate();
+        let lastDate: Number = currentDate.getDate();
 
-        const calendar = [];
-        let week = [];
+        const calendar: Array<[]> = [];
+        let week: [] = [];
 
-        const setCalendar = () => {
+        const setCalendar = (): void => {
             calendar.push(week);
             week = [];
         };
@@ -175,8 +174,8 @@ const Calendar = (props) => {
             if (week.length === 7) setCalendar();
 
             if (date === lastDate) {
-                const pushWeek = [];
-                let lastPushDate = null;
+                const pushWeek: [] = [];
+                let lastPushDate: Number = null;
 
                 for (let pushDate = 0; pushDate < 7 - week.length; pushDate++) {
                     pushWeek.push({
@@ -196,7 +195,7 @@ const Calendar = (props) => {
 
                 if (calendar.length < 6) {
                     for (
-                        let remainingWeek = 0;
+                        let remainingWeek: Number = 0;
                         remainingWeek < 6 - calendar.length;
                         remainingWeek++
                     ) {
@@ -220,14 +219,14 @@ const Calendar = (props) => {
         setCalendarDates(calendar);
     };
 
-    const updateMonth = (SIGN) => {
-        const prevDate = new Date(`${selectedYear}-${selectedMonth}-01`);
+    const updateMonth = (SIGN: Number): void => {
+        const prevDate: Date = new Date(`${selectedYear}-${selectedMonth}-01`);
         prevDate.setMonth(prevDate.getMonth() + SIGN);
-        const prevDateTxt = prevDate.toISOString().split("T")[0];
+        const prevDateTxt: string = prevDate.toISOString().split("T")[0];
         updateCalendarDates(prevDateTxt);
     };
 
-    const selectDate = (node, date) => {
+    const selectDate = (node, date): void => {
         if (!date.isActive) return;
         setSelectedDate(date.value);
         setSelectedNode(node);
@@ -236,8 +235,8 @@ const Calendar = (props) => {
         );
     };
 
-    const getDateClass = (node, date) => {
-        let className = "";
+    const getDateClass = (node, date): string => {
+        let className: string = "";
 
         if (selectedNode === node) className = "active";
         if (!date.isActive) className = "disabled";

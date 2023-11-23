@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled, { StyledInterface } from "styled-components";
 
-const BasicSelectBox = styled.select`
+const BasicSelectBox: StyledInterface = styled.select`
     height: 32px;
     min-width: ${(props) => (props.width ? props.width : props.outline ? "70px" : "0")};
     border-radius: 4px;
@@ -17,12 +17,12 @@ const BasicSelectBox = styled.select`
     }
 `;
 
-const Option = styled.option`
+const Option: StyledInterface = styled.option`
     font-size: 14px;
     width: 100px !important;
 `;
 
-const SelectBox = ({ options, ...rest }) => {
+const SelectBox = ({ options, ...rest }): JSX.Element => {
     return (
         <BasicSelectBox {...rest}>
             {options.map((option) => {

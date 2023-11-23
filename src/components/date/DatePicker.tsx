@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from "react";
-import styled from "styled-components";
+import styled, { StyledInterface } from "styled-components";
 import { BsCalendarEvent } from "react-icons/bs";
 import { convertDateFormat } from "@/utils/convert.ts";
 import Calendar from "./Calendar";
 import { clickOutSide } from "@/utils/event.ts";
 import { theme } from "@/styles/theme";
 
-const DatePickerWrapper = styled.div`
+const DatePickerWrapper: StyledInterface = styled.div`
     position: relative;
     width: 100%;
     height: 100%;
@@ -16,7 +16,7 @@ const DatePickerWrapper = styled.div`
     }
 `;
 
-const DatePickerBox = styled.div`
+const DatePickerBox: StyledInterface = styled.div`
     display: flex;
     justify-content: left;
     align-items: center;
@@ -26,17 +26,17 @@ const DatePickerBox = styled.div`
     cursor: pointer;
 `;
 
-const DateValueBox = styled.span`
+const DateValueBox: StyledInterface = styled.span`
     margin: 10px;
     font-weight: 500;
 `;
 
-const Placeholder = styled.span`
+const Placeholder: StyledInterface = styled.span`
     margin: 10px;
     color: #e6e6e6;
 `;
 
-const CalendarBox = styled.div`
+const CalendarBox: StyledInterface = styled.div`
     @keyframes fade-in-dropdown-animation {
         0% {
             transform: scale(0);
@@ -70,12 +70,12 @@ const CalendarBox = styled.div`
     }
 `;
 
-const DatePicker = (props) => {
-    const calendarRef = useRef(null);
-    const [showDate, setShowDate] = useState(null);
-    const [isShowCalendar, setIsShowCalendar] = useState(false);
-    const [isValid, setIsValid] = useState(true);
-    const currentDate = convertDateFormat(new Date(), ".");
+const DatePicker = (props): JSX.Element => {
+    const calendarRef = useRef<ref>(null);
+    const [showDate, setShowDate] = useState<string | null>(null);
+    const [isShowCalendar, setIsShowCalendar] = useState<Boolean>(false);
+    const [isValid, setIsValid] = useState<Boolean>(true);
+    const currentDate: string = convertDateFormat(new Date(), ".");
 
     useEffect(() => {
         clickOutSide(calendarRef, () => {
@@ -83,8 +83,8 @@ const DatePicker = (props) => {
         });
     }, [calendarRef]);
 
-    const checkValid = () => {
-        let res = true;
+    const checkValid = (): void => {
+        let res: Boolean = true;
 
         props.rules.forEach((validator) => {
             if (!validator(showDate)) res = false;
@@ -96,7 +96,7 @@ const DatePicker = (props) => {
 
     useEffect(checkValid, [isShowCalendar]);
 
-    const setValue = (value) => {
+    const setValue = (value): void => {
         setShowDate(value);
         props.setValue(value);
         setIsShowCalendar(false);

@@ -1,10 +1,10 @@
 import React from "react";
-import styled, { useTheme } from "styled-components";
-import { useRouter } from "next/router";
+import styled, { DefaultTheme, StyledInterface, useTheme } from "styled-components";
+import { NextRouter, useRouter } from "next/router";
 import { useEffect, use, useRef } from "react";
 import { theme } from "@/styles/theme";
 
-const Button = styled.a`
+const Button: StyledInterface = styled.a`
     max-width: 190px;
     padding: 15px;
     transition: all ease 200ms 0s;
@@ -16,11 +16,10 @@ const Button = styled.a`
     }
 `;
 
-const MenuButton = ({ children, currentPath, ...rest }) => {
-    const theme = useTheme();
-    const buttonRef = useRef();
-    const router = useRouter();
-    const buttonStyle = {};
+const MenuButton = ({ children, currentPath, ...rest }): JSX.Element => {
+    const theme: DefaultTheme = useTheme();
+    const buttonRef: ref = useRef();
+    const router: NextRouter = useRouter();
 
     useEffect(() => {
         if (currentPath === rest.href) {

@@ -1,11 +1,11 @@
-import styled from "styled-components";
+import styled, { StyledInterface } from "styled-components";
 import { theme } from "@/styles/theme";
 import Spinner from "../spinner/Spinner";
 
-const hexToRgb = (hexType: String = "primary", alpha: Number = 1) => {
+const hexToRgb = (hexType: String = "primary", alpha: Number = 1): string => {
     if (theme.colors[hexType]) hexType = theme.colors[hexType];
-    const hex = hexType.trim().replace("#", "");
-    const rgb = 3 === hex.length ? hex.match(/[a-f\d]/gi) : hex.match(/[a-f\d]{2}/gi);
+    const hex: string = hexType.trim().replace("#", "");
+    const rgb: string = 3 === hex.length ? hex.match(/[a-f\d]/gi) : hex.match(/[a-f\d]{2}/gi);
 
     rgb.forEach(function (str, x, arr) {
         if (str.length == 1) str = str + str;
@@ -15,7 +15,7 @@ const hexToRgb = (hexType: String = "primary", alpha: Number = 1) => {
     return `rgba(${rgb.join(", ")}, ${alpha})`;
 };
 
-const DefaultButton = styled.button`
+const DefaultButton: StyledInterface = styled.button`
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -35,7 +35,7 @@ const DefaultButton = styled.button`
     }
 `;
 
-const BasicButton = styled(DefaultButton)`
+const BasicButton: StyledInterface = styled(DefaultButton)`
     border: none;
     color: #fff;
     background-color: #e2e2e2;
@@ -53,7 +53,7 @@ const BasicButton = styled(DefaultButton)`
     }
 `;
 
-const OutlineButton = styled(DefaultButton)`
+const OutlineButton: StyledInterface = styled(DefaultButton)`
     border: 1px solid #e2e2e2;
     color: #e2e2e2;
 
@@ -71,7 +71,7 @@ const OutlineButton = styled(DefaultButton)`
     }
 `;
 
-const Button = ({ children, loading, disabled, ...rest }) => {
+const Button = ({ children, loading, disabled, ...rest }): JSX.Element => {
     if (rest.outline)
         return (
             <OutlineButton

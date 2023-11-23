@@ -1,7 +1,7 @@
-import styled from "styled-components";
+import styled, { StyledInterface } from "styled-components";
 import { theme } from "@/styles/theme";
 
-const RadioWrapper = styled.div`
+const RadioWrapper: StyledInterface = styled.div`
     display: flex;
     align-items: center;
     font-size: 12px;
@@ -22,7 +22,7 @@ const RadioWrapper = styled.div`
     }
 `;
 
-const Label = styled.label`
+const Label: StyledInterface = styled.label`
     font-size: 12px;
     display: inline-block;
     padding: 5px 10px;
@@ -35,11 +35,11 @@ const Label = styled.label`
     }
 `;
 
-const DefaultRadio = styled.input`
+const DefaultRadio: StyledInterface = styled.input`
     display: none;
 `;
 
-const Radio = ({ children, value, name, defaultChecked, disabled, ...rest }) => {
+const Radio = ({ children, value, name, defaultChecked, disabled, ...rest }): JSX.Element => {
     return (
         <RadioWrapper>
             <DefaultRadio

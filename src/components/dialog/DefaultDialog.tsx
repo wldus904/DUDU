@@ -1,10 +1,10 @@
 import { useState, forwardRef, useImperativeHandle, useRef, useEffect } from "react";
-import styled from "styled-components";
+import styled, { StyledInterface } from "styled-components";
 import { BsX } from "react-icons/bs";
 import Overlay from "@/components/overlay/Overlay";
 import { clickOutSide } from "@/utils/event.ts";
 
-const DialogWrapper = styled.div`
+const DialogWrapper: StyledInterface = styled.div`
     width: 100%;
     height: 100%;
     display: flex;
@@ -12,7 +12,7 @@ const DialogWrapper = styled.div`
     align-items: center;
 `;
 
-const DialogBox = styled.div`
+const DialogBox: StyledInterface = styled.div`
     @keyframes fade-in-dropdown-animation {
         0% {
             transform: scale(0);
@@ -71,27 +71,27 @@ const DialogBox = styled.div`
     }
 `;
 
-const Header = styled.div`
+const Header: StyledInterface = styled.div`
     padding: 12px 12px 6px;
     display: flex;
     justify-content: space-between;
 `;
 
-const Title = styled.div`
+const Title: StyledInterface = styled.div`
     font-size: 13px;
     font-weight: 700;
 `;
 
-const Contents = styled.pre`
+const Contents: StyledInterface = styled.pre`
     padding: 6px 12px 12px;
     margin: 0;
 `;
 
 const DefaultDialog = forwardRef(
-    ({ children, title, isShowClose, isOutSideClose, ...rest }, ref) => {
-        const dialogRef = useRef(null);
-        const [isShow, setIsShow] = useState(false);
-        const [className, setClassName] = useState("");
+    ({ children, title, isShowClose, isOutSideClose, ...rest }, ref): JSX.Element => {
+        const dialogRef = useRef<ref>(null);
+        const [isShow, setIsShow] = useState<Boolean>(false);
+        const [className, setClassName] = useState<string | null>("");
 
         useImperativeHandle(ref, () => ({ open, close }));
 
@@ -101,12 +101,12 @@ const DefaultDialog = forwardRef(
             });
         }, [dialogRef]);
 
-        const open = () => {
+        const open = (): void => {
             setIsShow(true);
             setClassName("show");
         };
 
-        const close = () => {
+        const close = (): void => {
             setIsShow(false);
             setClassName("hidden");
         };

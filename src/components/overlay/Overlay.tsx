@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled, { StyledInterface } from "styled-components";
 
-const OverlayWrapper = styled.div`
+const OverlayWrapper: StyledInterface = styled.div`
     position: fixed;
     width: 100%;
     height: 100%;
@@ -37,7 +37,7 @@ const OverlayWrapper = styled.div`
             : "background-color: rgba(0, 0, 0, 0.3);"}
 `;
 
-const Overlay = ({ children, isToggle, isShow }) => {
+const Overlay = ({ children, isToggle, isShow }): JSX.Element => {
     return (
         <OverlayWrapper isToggle={isToggle} className={isShow ? "show" : "hidden"}>
             {children}

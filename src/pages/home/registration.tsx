@@ -9,10 +9,11 @@ import Button from "@/components/button/Button";
 import DefaultDialog from "@/components/dialog/DefaultDialog";
 import { required, phoneNumberValidator, emailValidator, passwordValidator } from "@/utils/valid";
 import * as registrationApi from "@/apis/user/registration.ts";
-import { useRouter } from "next/router";
+import { NextRouter, useRouter } from "next/router";
 import { BsCheck } from "react-icons/bs";
+import { RegistrationInf } from "@/interfaces/registration/RegistrationInf";
 
-const RegistrationWrapper = styled.div`
+const RegistrationWrapper: StyledInterface = styled.div`
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -23,31 +24,31 @@ const RegistrationWrapper = styled.div`
     background-color: #fafafa;
 `;
 
-const MainIconBox = styled.div`
+const MainIconBox: StyledInterface = styled.div`
     margin-bottom: 20px;
 `;
 
-const InputWrapper = styled.div`
+const InputWrapper: StyledInterface = styled.div`
     max-width: 400px;
     min-width: 350px;
     background-color: #fff;
     box-shadow: 0 0 4px #d6dbe4;
 `;
 
-const InputBox = styled.form`
+const InputBox: StyledInterface = styled.form`
     padding: 20px;
 `;
 
-const OptionBox = styled.div`
+const OptionBox: StyledInterface = styled.div`
     ${(props) => (props.flex ? "display: flex; align-items: center;" : "")}
     margin-bottom: 5px;
 `;
 
-const OptionTitle = styled.div`
+const OptionTitle: StyledInterface = styled.div`
     min-width: 70px;
 `;
 
-const RegistrationCompletedBox = styled.div`
+const RegistrationCompletedBox: StyledInterface = styled.div`
     text-align: center;
 
     .check-icon {
@@ -61,31 +62,43 @@ const RegistrationCompletedBox = styled.div`
     }
 `;
 
-const RegistrationBoldTitle = styled.div`
+const RegistrationBoldTitle: StyledInterface = styled.div`
     font-size: 15px;
     font-weight: 700;
     margin-top: 15px;
 `;
 
-const RegistrationContents = styled.div`
+const RegistrationContents: StyledInterface = styled.div`
     font-size: 12px;
     font-weight: 500;
     margin-top: 15px;
     margin-bottom: 15px;
 `;
 
-const Registration = () => {
-    const router = useRouter();
-    const [errorMsg, setErrorMsg] = useState();
-    const [email, setEmail] = useState();
-    const [phoneNumber, setPhoneNumber] = useState();
-    const [pwd, setPwd] = useState();
-    const [checkPwd, setCheckPwd] = useState();
-    const [name, setName] = useState();
-    const [gender, setGender] = useState();
-    const [birthDay, setBirthDay] = useState();
-    const [isValid, setIsValid] = useState(false);
-    const [optionValid, setOptionValid] = useState({
+type valid = {
+    email: Boolean;
+    phoneNumber: Boolean;
+    pwd: Boolean;
+    checkPwd: Boolean;
+    name: Boolean;
+    gender: Boolean;
+    birthDay: Boolean;
+};
+
+type registrationRes = { result?: string; message?: string };
+
+const Registration = (): JSX.Element => {
+    const router: NextRouter = useRouter();
+    const [errorMsg, setErrorMsg] = useState<string | null>(null);
+    const [email, setEmail] = useState<string | null>(null);
+    const [phoneNumber, setPhoneNumber] = useState<string | null>(null);
+    const [pwd, setPwd] = useState<string | null>(null);
+    const [checkPwd, setCheckPwd] = useState<string | null>(null);
+    const [name, setName] = useState<string | null>(null);
+    const [gender, setGender] = useState<"M" | "W">("M");
+    const [birthDay, setBirthDay] = useState<string | null>(null);
+    const [isValid, setIsValid] = useState<Boolean>(false);
+    const [optionValid, setOptionValid] = useState<valid>({
         email: false,
         phoneNumber: false,
         pwd: false,
@@ -94,17 +107,17 @@ const Registration = () => {
         gender: true,
         birthDay: false,
     });
-    const [loading, setLoading] = useState(false);
-    const completeDialogRef = useRef();
-    const errorDialogRef = useRef();
-    const radios = [
+    const [loading, setLoading] = useState<Boolean>(false);
+    const completeDialogRef = useRef<ref>();
+    const errorDialogRef = useRef<ref>();
+    const radios: Array<{ label: string; value: string; defaultChecked?: Boolean }> = [
         { label: "남자", value: "M", defaultChecked: true },
         { label: "여자", value: "W" },
     ];
 
-    const validator = () => {
-        let res = true;
-        Object.keys(optionValid).forEach((valid) => {
+    const validator = (): void => {
+        let res: Boolean = true;
+        Object.keys(optionValid).forEach((valid: string) => {
             if (!optionValid[valid]) {
                 res = false;
             }
@@ -112,35 +125,37 @@ const Registration = () => {
         setIsValid(res);
     };
 
-    const userRegistration = async () => {
+    const userRegistration = async (): void => {
         validator();
         if (!isValid) return;
 
         setLoading(true);
         try {
-            const res = await registrationApi.postRegistration({
+            const params: RegistrationInf = {
                 email,
                 phoneNumber,
                 pwd,
                 name,
                 gender,
                 birthDay,
-            });
+            };
+            const res: registrationRes = await registrationApi.postRegistration(params);
             completeDialogRef.current.open();
         } catch (error) {
+            setErrorMsg(error.message);
             errorDialogRef.current.open();
         }
     };
 
-    const moveLogin = () => {
+    const moveLogin = (): void => {
         router.replace("/home/login");
     };
 
-    const checkPwdValidator = () => {
+    const checkPwdValidator = (): Boolean => {
         return pwd === checkPwd;
     };
 
-    const closeErrorDialog = () => {
+    const closeErrorDialog = (): void => {
         errorDialogRef.current.close();
     };
 

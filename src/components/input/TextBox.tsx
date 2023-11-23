@@ -36,18 +36,21 @@ const BasicTextBox = styled.input`
     }
 `;
 
-const TextBox = ({ children, placeholder, rules, isSelect, ...rest }) => {
+const TextBox = ({ children, placeholder, rules, isSelect, value, ...rest }) => {
     const [isValid, setIsValid] = useState(true);
 
     const checkValid = (value) => {
         let res = true;
 
-        rules.forEach((validator) => {
-            if (!validator(value)) res = false;
-        });
+        if (rules) {
+            rules.forEach((validator) => {
+                if (!validator(value)) res = false;
+            });
+        }
+
+        if (rest.setValid) rest.setValid(res);
 
         setIsValid(res);
-        rest.setValid(res);
     };
 
     return (
@@ -58,6 +61,7 @@ const TextBox = ({ children, placeholder, rules, isSelect, ...rest }) => {
                 placeholder={placeholder}
                 {...rest}
                 type="text"
+                value={value || ""}
             >
                 {children}
             </BasicTextBox>

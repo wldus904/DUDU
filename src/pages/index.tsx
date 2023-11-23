@@ -1,18 +1,16 @@
 import Dashboard from "./main/dashboard";
-import { useRouter } from "next/router";
+import { NextRouter, useRouter } from "next/router";
 
-const IndexPage = () => {
-    const router = useRouter();
+const IndexPage = (): void => {
+    const router: NextRouter = useRouter();
 
     if (typeof window !== "undefined") {
-        const user = localStorage.getItem("user");
+        const user: string | null = localStorage.getItem("user");
 
         if (user) router.push("/main/dashboard");
-        else router.push("/home/registration");
-        // else router.push("/home/login");
+        // else router.push("/home/registration");
+        else router.push("/home/login");
     }
-
-    return "";
 };
 
 export default IndexPage;

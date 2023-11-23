@@ -19,8 +19,11 @@ type Props = {
 };
 
 const Layout = ({ children, title = "DUDU" }: Props) => {
-    const [windowSize, setWindowSize] = useState([window.innerWidth, window.innerHeight]);
-    const [isShow, setIsShow] = useState(false);
+    const [windowSize, setWindowSize] = useState<Array<Number>>([
+        window.innerWidth,
+        window.innerHeight,
+    ]);
+    const [isShow, setIsShow] = useState<Boolean>(false);
 
     // useEffect(() => {
     //     const handleWindowResize = () => {

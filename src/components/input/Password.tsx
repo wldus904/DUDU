@@ -48,19 +48,22 @@ const IconBtnBox = styled.div`
     cursor: pointer;
 `;
 
-const Password = ({ children, placeholder, type, rules, isSelect, ...rest }) => {
+const Password = ({ children, placeholder, type, rules, isSelect, value, ...rest }) => {
     const [isShow, setIsShow] = useState(false);
     const [isValid, setIsValid] = useState(true);
 
     const checkValid = (value) => {
         let res = true;
 
-        rules.forEach((validator) => {
-            if (!validator(value)) res = false;
-        });
+        if (rules) {
+            rules.forEach((validator) => {
+                if (!validator(value)) res = false;
+            });
+        }
+
+        if (rest.setValid) rest.setValid(res);
 
         setIsValid(res);
-        rest.setValid(res);
     };
 
     return (
@@ -72,6 +75,7 @@ const Password = ({ children, placeholder, type, rules, isSelect, ...rest }) => 
                 {...rest}
                 type={isShow ? "text" : "password"}
                 autoComplete="new-password"
+                value={value || ""}
             >
                 {children}
             </BasicPasswordBox>

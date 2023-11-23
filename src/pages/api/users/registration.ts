@@ -9,8 +9,8 @@ type RouteMethod = {
     [key: String]: typeof REGISTRATION.GET | typeof REGISTRATION.POST;
 };
 
-function handler(req: NextApiRequest, res: NextApiResponse) {
-    const method = req.method as String;
+function handler(req: NextApiRequest, res: NextApiResponse): void {
+    const method: string = req.method;
     const HttpFunctions: RouteMethod = REGISTRATION;
     HttpFunctions[method](req, res);
 }

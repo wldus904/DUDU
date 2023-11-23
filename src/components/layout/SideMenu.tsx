@@ -1,13 +1,13 @@
 import React from "react";
 import Link from "next/link";
-import styled from "styled-components";
+import styled, { StyledInterface } from "styled-components";
 import MainIcon from "../icon/MainIcon";
 import MenuButton from "../button/MenuButton";
-import { useRouter } from "next/router";
+import { NextRouter, useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { BsX } from "react-icons/bs";
 
-const MainIconWrapper = styled.div`
+const MainIconWrapper: StyledInterface = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -19,13 +19,13 @@ const MainIconWrapper = styled.div`
         cursor: pointer;
     }
 `;
-const MenuWrapper = styled.div`
+const MenuWrapper: StyledInterface = styled.div`
     max-width: 260px;
     min-width: 260px;
     border-right: 1px solid #eee;
     font-size: 12px;
 `;
-const MenuContents = styled.nav`
+const MenuContents: StyledInterface = styled.nav`
     height: calc(100vh - 108px);
     display: flex;
     flex-direction: column;
@@ -37,16 +37,16 @@ const MenuContents = styled.nav`
     }
 `;
 
-const SideMenu = (props) => {
-    const router = useRouter();
-    let [currentPath, setCurrentPath] = useState(router.pathname);
+const SideMenu = (props): JSX.Element => {
+    const router: NextRouter = useRouter();
+    let [currentPath, setCurrentPath] = useState<string | null>(router.pathname);
     const menus = [
         { name: "About", url: "/about" },
         { name: "Users", url: "/users" },
         { name: "Users API", url: "/api/users" },
     ];
 
-    const move = (e, url) => {
+    const move = (e: MouseEvent, url: string): void => {
         e.preventDefault();
         router.push(url);
     };

@@ -1,17 +1,17 @@
 import React from "react";
-import styled from "styled-components";
-import { useRouter } from "next/router";
+import styled, { StyledInterface } from "styled-components";
+import { NextRouter, useRouter } from "next/router";
 
-const IconBox = styled.a`
+const IconBox: StyledInterface = styled.a`
     display: block;
     font-size: 30px;
     font-color: #49497c;
     font-weight: 700;
 `;
 
-const MainIcon = ({ ...rest }) => {
-    const router = useRouter();
-    const clickHandler = (e) => {
+const MainIcon = ({ ...rest }): JSX.Element => {
+    const router: NextRouter = useRouter();
+    const clickHandler = (e: MouseEvent) => {
         e.preventDefault();
         router.push("/");
     };

@@ -1,12 +1,13 @@
-import styled from "styled-components";
+import styled, { StyledInterface } from "styled-components";
 import { useState } from "react";
 import Button from "@/components/button/Button";
 import TextBox from "@/components/input/TextBox";
+import Password from "@/components/input/Password";
 import MainIcon from "@/components/icon/MainIcon";
 import { theme } from "@/styles/theme";
-import { useRouter } from "next/router";
+import { NextRouter, useRouter } from "next/router";
 
-const LoginWrapper = styled.div`
+const LoginWrapper: StyledInterface = styled.div`
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -17,19 +18,19 @@ const LoginWrapper = styled.div`
     background-color: #fafafa;
 `;
 
-const LoginBox = styled.div`
+const LoginBox: StyledInterface = styled.div`
     max-width: 300px;
     padding: 20px;
     background-color: #fff;
     box-shadow: 0 0 4px #d6dbe4;
 `;
 
-const MainIconBox = styled.div`
+const MainIconBox: StyledInterface = styled.div`
     text-align: center;
     margin-bottom: 20px;
 `;
 
-const InputBox = styled.div`
+const InputBox: StyledInterface = styled.div`
     input {
         &:first-child {
             margin-bottom: 5px;
@@ -37,34 +38,33 @@ const InputBox = styled.div`
     }
 `;
 
-const WarningMsg = styled.div`
+const WarningMsg: StyledInterface = styled.div`
     display: flex;
     align-items: center;
     min-height: 35px;
     color: ${theme.colors.error};
 `;
 
-const FindWrapper = styled.div`
+const FindWrapper: StyledInterface = styled.div`
     text-align: center;
     margin-top: 10px;
 `;
 
-const Login = () => {
-    const router = useRouter();
-    const [id, setId] = useState("");
-    const [pwd, setPwd] = useState("");
-    const [msg, setMsg] = useState("");
-    const [loading, setLoading] = useState(false);
-    const finds = [{ name: "회원가입", url: "/home/registration" }];
+const Login = (): JSX.Element => {
+    const router: NextRouter = useRouter();
+    const [id, setId] = useState<string | null>("");
+    const [pwd, setPwd] = useState<string | null>("");
+    const [msg, setMsg] = useState<string | null>("");
+    const [loading, setLoading] = useState<Boolean | null>(false);
+    const finds: Array<{ name: string; url: string }> = [
+        { name: "회원가입", url: "/home/registration" },
+    ];
 
-    const setValue = (e, ref) => {
-        ref.current = e.target.value;
-    };
-
-    const startLogin = () => {
+    const startLogin = (): void => {
         setLoading(true);
         setMsg("");
 
+        // TODO user 정보 가져오기
         if (id === "test" && pwd === "test") {
             localStorage.setItem("user", "abcd1234");
             router.push("/main/dashboard");
@@ -74,7 +74,7 @@ const Login = () => {
         }
     };
 
-    const move = (e, url) => {
+    const move = (e: MouseEvent, url: string): void => {
         e.preventDefault();
         router.push(url);
     };
@@ -91,13 +91,14 @@ const Login = () => {
                         value={id}
                         width="98%"
                         onChange={(e) => setId(e.target.value)}
+                        isSelect
                     />
-                    <TextBox
-                        type="password"
+                    <Password
                         placeholder="비밀번호"
                         value={pwd}
                         width="98%"
                         onChange={(e) => setPwd(e.target.value)}
+                        isSelect
                     />
                 </InputBox>
                 <WarningMsg>{msg}</WarningMsg>

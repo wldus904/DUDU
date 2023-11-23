@@ -1,11 +1,11 @@
-import styled from "styled-components";
+import styled, { StyledInterface } from "styled-components";
 import User from "../icon/User";
 import { BsList, BsPersonCircle } from "react-icons/bs";
 import { useState } from "react";
 import Button from "@/components/button/Button";
-import { useRouter } from "next/router";
+import { NextRouter, useRouter } from "next/router";
 
-const HeaderBox = styled.header`
+const HeaderBox: StyledInterface = styled.header`
     position: sticky;
     display: flex;
     justify-content: space-between;
@@ -38,7 +38,7 @@ const HeaderBox = styled.header`
     }
 `;
 
-const UserMenuWrapper = styled.div`
+const UserMenuWrapper: StyledInterface = styled.div`
     position: fixed;
     top: 55px;
     right: 25px;
@@ -59,22 +59,22 @@ const UserMenuWrapper = styled.div`
     }
 `;
 
-const UserMenuList = styled.ul`
+const UserMenuList: StyledInterface = styled.ul`
     list-style: none;
     padding: 0 10px;
 `;
 
-const UserMenu = styled.li`
+const UserMenu: StyledInterface = styled.li`
     &:not(:last-child) {
         border-bottom: 1px solid #fff;
     }
 `;
 
-const Header = (props) => {
-    const router = useRouter();
-    const [isShowUserMenu, setIsShowUserMenu] = useState(false);
+const Header = (props): JSX.Element => {
+    const router: NextRouter = useRouter();
+    const [isShowUserMenu, setIsShowUserMenu] = useState<Boolean>(false);
 
-    const logout = () => {
+    const logout = (): void => {
         localStorage.removeItem("user");
         router.push("/home/login");
     };
