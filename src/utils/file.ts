@@ -1,30 +1,28 @@
+import { RegistrationInf } from "@/interfaces/registration/RegistrationInf";
 const fs = require("fs");
 
-const existFile = (path) => {
+type RegistrationFile = { [key: string]: RegistrationInf };
+
+const existFile = (path: string): Boolean => {
     return fs.existsSync(path);
 };
 
-const readFile = (path) => {
+const readFile = (path: string): RegistrationFile => {
     if (!existFile(path)) return null;
-
-    let file = null;
-    fs.readFileSync(path, (data, error) => {
-        if (error) throw error;
-        file = JSON.parse(data.toString());
-    });
-
+    const file = JSON.parse(fs.readFileSync(path, "utf-8"));
     return file;
 };
 
-const writeFile = (path, data) => {
+const writeFile = (path: string, data: RegistrationFile): void => {
     fs.writeFile(path, JSON.stringify(data), (error) => {
         if (error) throw error;
     });
 };
 
-const readAndWriteFile = (path, writer) => {
-    const file = readFile(path);
-    const newFile = writer(file);
+type writerFunc = (file: RegistrationFile) => RegistrationFile;
+const readAndWriteFile = (path: string, writer: writerFunc): void => {
+    const file: RegistrationFile = readFile(path);
+    const newFile: RegistrationFile = writer(file);
     writeFile(path, newFile);
 };
 
